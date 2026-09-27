@@ -341,7 +341,7 @@ def build_pdf(output: Path) -> None:
 
     pdf.section("10. Repository & Links")
     pdf.body(
-        "GitHub: https://github.com/mamanimaniiiii-a11y/5ibra\n"
+        "GitHub: https://github.com/mamanimaniiiii-a11y/duo\n"
         "Regenerate this PDF: python scripts/generate_prototype_pdf.py\n"
         "Gap analysis test matrix: python backend/scripts/test_gap_analysis_matrix.py --prepare"
     )
