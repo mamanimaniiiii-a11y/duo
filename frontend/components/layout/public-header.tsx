@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { BrandLogo } from "@/components/layout/brand-logo";
 import { roleDashboardPath } from "@/lib/auth/paths";
 import { getOptionalAuth } from "@/lib/auth/server";
 import { LocaleSwitcher } from "./locale-switcher";
@@ -16,12 +17,7 @@ export async function PublicHeader({ locale }: PublicHeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-primary-600/20 bg-surface-50/95 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link
-          href="/"
-          className="text-xl font-semibold tracking-tight text-primary-600"
-        >
-          {t("common.appName")}
-        </Link>
+        <BrandLogo priority />
 
         <nav
           aria-label={t("nav.main")}

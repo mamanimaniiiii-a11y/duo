@@ -178,8 +178,12 @@ def _normalize_gap_response(raw: dict) -> dict:
             if not isinstance(idea, dict):
                 continue
             skills = idea.get("target_skills") or []
-            if isinstance(skills, list):
+            if isinstance(skills, str):
+                skills = [part.strip() for part in skills.replace("،", ",").split(",") if part.strip()]
+            elif isinstance(skills, list):
                 skills = [str(skill) for skill in skills[:6] if str(skill).strip()]
+            else:
+                skills = []
             normalized_ideas.append(
                 {
                     "title": str(idea.get("title", "")),

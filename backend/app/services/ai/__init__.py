@@ -1,1 +1,1 @@
-"""Services IA — pôle intelligence artificielle 5ibra."""
+"""Services IA — pôle intelligence artificielle Duo."""

@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "5ibra",
+    "appName": "Duo",
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
     "logout": "تسجيل الخروج",
@@ -39,11 +39,11 @@
     "boostPremium": "التعزيز والبريميوم"
   },
   "home": {
-    "metaTitle": "5ibra — عمل حر، إرشاد وتعلم عبر مشاريع حقيقية",
+    "metaTitle": "Duo — عمل حر، إرشاد وتعلم عبر مشاريع حقيقية",
     "metaDescription": "انشروا مشاريعكم، أرشدوا متعلمين، أو طوّروا مهاراتكم في مهام حقيقية. منصة مخصصة للجزائر.",
     "hero": {
       "title": "اعثروا على مرشد. تعلموا عبر مشاريع حقيقية. سلّموا بثقة.",
-      "subtitle": "5ibra تربط العملاء والمرشدين والمتعلمين حول مهام حقيقية — مع مرافقة منظمة وذكاء اصطناعي يسهّل المطابقة."
+      "subtitle": "Duo تربط العملاء والمرشدين والمتعلمين حول مهام حقيقية — مع مرافقة منظمة وذكاء اصطناعي يسهّل المطابقة."
     },
     "roles": {
       "client": "أنا عميل",
@@ -56,15 +56,15 @@
     }
   },
   "auth": {
-    "metaTitle": "تسجيل الدخول — 5ibra",
-    "loginMetaTitle": "تسجيل الدخول — 5ibra",
-    "registerMetaTitle": "إنشاء حساب — 5ibra",
-    "panelTitle": "مرحباً بكم في 5ibra",
+    "metaTitle": "تسجيل الدخول — Duo",
+    "loginMetaTitle": "تسجيل الدخول — Duo",
+    "registerMetaTitle": "إنشاء حساب — Duo",
+    "panelTitle": "مرحباً بكم في Duo",
     "panelSubtitle": "المنصة التي تربط العملاء والمرشدين والمتعلمين حول مشاريع حقيقية في الجزائر.",
     "loginHeading": "تسجيل الدخول",
     "loginSubtitle": "ادخل إلى لوحة التحكم وتابع مشاريعك.",
     "registerHeading": "إنشاء حساب",
-    "registerSubtitle": "انضم إلى 5ibra كعميل أو مرشد أو متعلم.",
+    "registerSubtitle": "انضم إلى Duo كعميل أو مرشد أو متعلم.",
     "loginTitle": "تسجيل الدخول",
     "registerTitle": "إنشاء حساب",
     "displayName": "الاسم المعروض",
@@ -80,38 +80,38 @@
     "forgotPassword": "نسيت كلمة المرور؟"
   },
   "legal": {
-    "metaTitle": "الشروط القانونية — 5ibra",
+    "metaTitle": "الشروط القانونية — Duo",
     "title": "الشروط والخصوصية",
     "termsTitle": "شروط الاستخدام",
-    "termsBody": "ستُنشر شروط استخدام 5ibra هنا قبل الإطلاق العام.",
+    "termsBody": "ستُنشر شروط استخدام Duo هنا قبل الإطلاق العام.",
     "privacyTitle": "سياسة الخصوصية",
     "privacyBody": "ستوضح سياسة الخصوصية كيفية جمع بياناتكم وتخزينها وحمايتها."
   },
   "mentors": {
-    "metaTitle": "دليل المرشدين — 5ibra",
+    "metaTitle": "دليل المرشدين — Duo",
     "title": "دليل المرشدين",
     "subtitle": "اكتشفوا مرشدين موثوقين حسب المجال والنتيجة والتقييمات.",
     "score": "النتيجة {score}/100",
     "viewProfile": "عرض الملف"
   },
   "mentorProfile": {
-    "metaTitle": "ملف المرشد — 5ibra",
+    "metaTitle": "ملف المرشد — Duo",
     "certified": "مرشد معتمد",
     "services": "الخدمات المقترحة",
     "openAnnouncements": "إعلانات مفتوحة"
   },
   "portfolio": {
-    "metaTitle": "محفظة المتعلّم — 5ibra",
+    "metaTitle": "محفظة المتعلّم — Duo",
     "score": "النتيجة {score}/100",
     "validatedSkills": "مهارات مُثبتة"
   },
   "annonce": {
-    "metaTitle": "إعلان — 5ibra",
+    "metaTitle": "إعلان — Duo",
     "apply": "تقديم طلب",
     "requiredSkills": "المهارات المطلوبة"
   },
   "account": {
-    "metaTitle": "حسابي — 5ibra",
+    "metaTitle": "حسابي — Duo",
     "title": "حسابي",
     "subtitle": "الملف، الإعدادات والتقييمات المستلمة.",
     "profileTab": "الملف",
@@ -119,13 +119,13 @@
     "reviewsTab": "تقييماتي"
   },
   "messages": {
-    "metaTitle": "الرسائل — 5ibra",
+    "metaTitle": "الرسائل — Duo",
     "title": "الرسائل",
     "subtitle": "محادثاتكم حسب المشروع والجهة.",
     "empty": "لا توجد محادثات بعد."
   },
   "notifications": {
-    "metaTitle": "الإشعارات — 5ibra",
+    "metaTitle": "الإشعارات — Duo",
     "title": "الإشعارات",
     "subtitle": "الطلبات، التسليمات، الرسائل والتنبيهات.",
     "empty": "لا توجد إشعارات."
@@ -170,7 +170,7 @@
     "boostPremium": { "title": "التعزيز والبريميوم", "description": "العروض والتأكيدات." }
   },
   "footer": {
-    "copyright": "© {year} 5ibra. جميع الحقوق محفوظة.",
+    "copyright": "© {year} Duo. جميع الحقوق محفوظة.",
     "legalNav": "روابط قانونية",
     "legal": "الشروط القانونية",
     "privacy": "الخصوصية"

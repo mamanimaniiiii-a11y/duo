@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ── Design tokens 5ibra — palette « Baie, Casbah, Atlas » ── */
+/* ── Design tokens Duo — palette « Baie, Casbah, Atlas » ── */
 @theme inline {
   /* Primaire — bleu baie d'Alger */
   --color-primary-600: #1a4d6e;

@@ -1,4 +1,4 @@
-"""Liste les comptes *@test.5ibra.dz avec email, rôle et locale."""
+"""Liste les comptes *@test.duo.dz avec email, rôle et locale."""
 
 import sys
 from pathlib import Path
@@ -14,11 +14,11 @@ from app.models.user import User
 def main() -> None:
     db = SessionLocal()
     users = db.scalars(
-        select(User).where(User.email.like("%@test.5ibra.dz")).order_by(User.email)
+        select(User).where(User.email.like("%@test.duo.dz")).order_by(User.email)
     ).all()
 
     if not users:
-        print("Aucun compte *@test.5ibra.dz trouvé.")
+        print("Aucun compte *@test.duo.dz trouvé.")
         return
 
     print(f"{'email':<30} {'role':<12} {'locale':<6} {'active':<6} id")

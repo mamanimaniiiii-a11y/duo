@@ -1,6 +1,6 @@
-# 5ibra — Backend FastAPI
+# Duo — Backend FastAPI
 
-API REST pour la plateforme 5ibra (freelancing, mentorat, apprentissage).
+API REST pour la plateforme Duo (freelancing, mentorat, apprentissage).
 
 ## Structure du projet
 
@@ -40,7 +40,7 @@ backend/
 ## Étape 1 — Créer le fichier `.env`
 
 ```powershell
-cd c:\Users\HP\Desktop\5ibra\backend
+cd c:\Users\HP\Desktop\Duo\backend
 Copy-Item .env.example .env
 ```
 
@@ -75,7 +75,7 @@ SECRET_KEY=abc123...votre_cle_generee...
 ## Étape 2 — Installer les dépendances
 
 ```powershell
-cd c:\Users\HP\Desktop\5ibra\backend
+cd c:\Users\HP\Desktop\Duo\backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -86,7 +86,7 @@ pip install -r requirements.txt
 ## Étape 3 — Appliquer la migration sur Supabase
 
 ```powershell
-cd c:\Users\HP\Desktop\5ibra\backend
+cd c:\Users\HP\Desktop\Duo\backend
 .\.venv\Scripts\Activate.ps1
 alembic upgrade head
 ```

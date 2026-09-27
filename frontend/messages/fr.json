@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "5ibra",
+    "appName": "Duo",
     "login": "Se connecter",
     "register": "S'inscrire",
     "logout": "Se déconnecter",
@@ -39,11 +39,11 @@
     "boostPremium": "Boost et Premium"
   },
   "home": {
-    "metaTitle": "5ibra — Freelancing, mentorat et apprentissage par projets réels",
+    "metaTitle": "Duo — Freelancing, mentorat et apprentissage par projets réels",
     "metaDescription": "Publiez des projets, encadrez des apprenants ou montez en compétence sur de vraies missions. Pensé pour l'Algérie.",
     "hero": {
       "title": "Trouvez un mentor. Formez-vous sur de vrais projets. Livrez en confiance.",
-      "subtitle": "5ibra relie clients, mentors et apprenants autour de missions réelles — avec un accompagnement structuré et une IA qui facilite le matching."
+      "subtitle": "Duo relie clients, mentors et apprenants autour de missions réelles — avec un accompagnement structuré et une IA qui facilite le matching."
     },
     "roles": {
       "client": "Je suis client",
@@ -56,15 +56,15 @@
     }
   },
   "auth": {
-    "metaTitle": "Connexion — 5ibra",
-    "loginMetaTitle": "Connexion — 5ibra",
-    "registerMetaTitle": "Inscription — 5ibra",
-    "panelTitle": "Bienvenue sur 5ibra",
+    "metaTitle": "Connexion — Duo",
+    "loginMetaTitle": "Connexion — Duo",
+    "registerMetaTitle": "Inscription — Duo",
+    "panelTitle": "Bienvenue sur Duo",
     "panelSubtitle": "La plateforme qui relie clients, mentors et apprenants autour de projets réels en Algérie.",
     "loginHeading": "Connectez-vous",
     "loginSubtitle": "Accédez à votre tableau de bord et reprenez vos projets.",
     "registerHeading": "Créez votre compte",
-    "registerSubtitle": "Rejoignez 5ibra en tant que client, mentor ou apprenant.",
+    "registerSubtitle": "Rejoignez Duo en tant que client, mentor ou apprenant.",
     "loginTitle": "Connexion",
     "registerTitle": "Inscription",
     "displayName": "Nom affiché",
@@ -80,38 +80,38 @@
     "forgotPassword": "Mot de passe oublié ?"
   },
   "legal": {
-    "metaTitle": "Mentions légales — 5ibra",
+    "metaTitle": "Mentions légales — Duo",
     "title": "Mentions légales et confidentialité",
     "termsTitle": "Conditions d'utilisation",
-    "termsBody": "Les conditions d'utilisation de 5ibra seront publiées ici avant le lancement public.",
+    "termsBody": "Les conditions d'utilisation de Duo seront publiées ici avant le lancement public.",
     "privacyTitle": "Politique de confidentialité",
     "privacyBody": "La politique de confidentialité détaillera comment vos données sont collectées, stockées et protégées."
   },
   "mentors": {
-    "metaTitle": "Annuaire des mentors — 5ibra",
+    "metaTitle": "Annuaire des mentors — Duo",
     "title": "Annuaire des mentors",
     "subtitle": "Découvrez des mentors vérifiés par domaine, score et avis.",
     "score": "Score {score}/100",
     "viewProfile": "Voir le profil"
   },
   "mentorProfile": {
-    "metaTitle": "Profil mentor — 5ibra",
+    "metaTitle": "Profil mentor — Duo",
     "certified": "Mentor certifié",
     "services": "Services proposés",
     "openAnnouncements": "Annonces ouvertes"
   },
   "portfolio": {
-    "metaTitle": "Portfolio apprenant — 5ibra",
+    "metaTitle": "Portfolio apprenant — Duo",
     "score": "Score {score}/100",
     "validatedSkills": "Compétences validées"
   },
   "annonce": {
-    "metaTitle": "Annonce — 5ibra",
+    "metaTitle": "Annonce — Duo",
     "apply": "Postuler",
     "requiredSkills": "Compétences recherchées"
   },
   "account": {
-    "metaTitle": "Mon compte — 5ibra",
+    "metaTitle": "Mon compte — Duo",
     "title": "Mon compte",
     "subtitle": "Profil, paramètres et avis reçus.",
     "profileTab": "Profil",
@@ -119,13 +119,13 @@
     "reviewsTab": "Mes avis"
   },
   "messages": {
-    "metaTitle": "Messagerie — 5ibra",
+    "metaTitle": "Messagerie — Duo",
     "title": "Messagerie",
     "subtitle": "Vos conversations par projet et par contact.",
     "empty": "Aucune conversation pour le moment."
   },
   "notifications": {
-    "metaTitle": "Notifications — 5ibra",
+    "metaTitle": "Notifications — Duo",
     "title": "Notifications",
     "subtitle": "Candidatures, livrables, messages et alertes.",
     "empty": "Aucune notification."
@@ -170,7 +170,7 @@
     "boostPremium": { "title": "Boost et Premium", "description": "Offres et confirmations." }
   },
   "footer": {
-    "copyright": "© {year} 5ibra. Tous droits réservés.",
+    "copyright": "© {year} Duo. Tous droits réservés.",
     "legalNav": "Liens légaux",
     "legal": "Mentions légales",
     "privacy": "Confidentialité"

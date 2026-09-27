@@ -9,7 +9,7 @@ settings = get_settings()
 app = FastAPI(
     title=settings.app_name,
     version="1.0.0",
-    description="API backend 5ibra — freelancing, mentorat et apprentissage (marché algérien)",
+    description="API backend Duo — freelancing, mentorat et apprentissage (marché algérien)",
     docs_url="/docs",
     redoc_url="/redoc",
 )

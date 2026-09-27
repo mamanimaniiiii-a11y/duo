@@ -8,7 +8,7 @@ Prérequis :
 
 Variables d'environnement (optionnelles) :
   API_BASE_URL          défaut http://127.0.0.1:8000/api/v1
-  TEST_MENTOR_EMAIL     défaut mentor@test.5ibra.dz
+  TEST_MENTOR_EMAIL     défaut mentor@test.duo.dz
   TEST_API_PASSWORD     défaut TestPass123!
   TEST_AI_PROJECT_ID    défaut 23c67abf-0730-4678-a360-9c20705a44e6
   TEST_AI_LOCALES       défaut ar,fr,en (séparées par des virgules)
@@ -42,8 +42,8 @@ if _env_path.exists():
             os.environ[key] = value.strip().strip('"').strip("'")
 
 API_BASE = os.getenv("API_BASE_URL", "http://127.0.0.1:8000/api/v1").rstrip("/")
-MENTOR_EMAIL = os.getenv("TEST_MENTOR_EMAIL", "mentor@test.5ibra.dz")
-APPRENANT_EMAIL = os.getenv("TEST_APPRENANT_EMAIL", "apprenant2@test.5ibra.dz")
+MENTOR_EMAIL = os.getenv("TEST_MENTOR_EMAIL", "mentor@test.duo.dz")
+APPRENANT_EMAIL = os.getenv("TEST_APPRENANT_EMAIL", "apprenant2@test.duo.dz")
 PASSWORD = os.getenv("TEST_API_PASSWORD", "TestPass123!")
 PROJECT_ID = os.getenv(
     "TEST_AI_PROJECT_ID", "23c67abf-0730-4678-a360-9c20705a44e6"
@@ -448,8 +448,21 @@ def main() -> None:
         action="store_true",
         help="Tester gap-analysis avec catalogue non vide (avec --direct)",
     )
+    parser.add_argument(
+        "--gap-matrix",
+        action="store_true",
+        help="Matrice complète gap-analysis §5.4 (scripts/test_gap_analysis_matrix.py)",
+    )
     args = parser.parse_args()
     locales = [x.strip() for x in args.locales.split(",") if x.strip()]
+
+    if args.gap_matrix:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from test_gap_analysis_matrix import run_matrix
+
+        run_locales = locales if locales else ["fr", "ar", "en"]
+        prepare = "--prepare" in sys.argv
+        raise SystemExit(run_matrix(run_locales, dry_run=False, verbose=False, prepare=prepare))
 
     if args.direct and args.gap_catalog_test:
         locale = locales[0] if locales else "fr"

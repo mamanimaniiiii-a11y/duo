@@ -1,5 +1,5 @@
 """
-Test automatisé de tous les endpoints API 5ibra.
+Test automatisé de tous les endpoints API Duo.
 
 Prérequis : API lancée sur http://localhost:8000
 
@@ -74,17 +74,17 @@ ADMIN_PASSWORD = os.getenv("TEST_ADMIN_PASSWORD") or TEST_PASSWORD
 
 ACCOUNTS = {
     "client": {
-        "email": os.getenv("TEST_CLIENT_EMAIL", "client@test.5ibra.dz"),
+        "email": os.getenv("TEST_CLIENT_EMAIL", "client@test.duo.dz"),
         "display_name": "Client Test API",
         "role": "client",
     },
     "mentor": {
-        "email": os.getenv("TEST_MENTOR_EMAIL", "mentor@test.5ibra.dz"),
+        "email": os.getenv("TEST_MENTOR_EMAIL", "mentor@test.duo.dz"),
         "display_name": "Mentor Test API",
         "role": "mentor",
     },
     "apprenant": {
-        "email": os.getenv("TEST_APPRENANT_EMAIL", "apprenant@test.5ibra.dz"),
+        "email": os.getenv("TEST_APPRENANT_EMAIL", "apprenant@test.duo.dz"),
         "display_name": "Apprenant Test API",
         "role": "apprenant",
         "skills": ["Python", "React"],

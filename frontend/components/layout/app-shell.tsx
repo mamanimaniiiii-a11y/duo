@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { BrandLogo } from "@/components/layout/brand-logo";
 import {
   ROLE_NAV,
   ROLE_SHELL_STYLES,
@@ -25,9 +26,7 @@ export async function AppShell({ role, children }: AppShellProps) {
         className={`hidden w-60 shrink-0 flex-col ${styles.sidebar} text-white lg:flex lg:min-h-screen`}
       >
         <div className="flex h-16 shrink-0 items-center border-b border-white/10 px-5">
-          <Link href="/" className="text-lg font-semibold text-white">
-            {t("common.appName")}
-          </Link>
+          <BrandLogo className="brightness-0 invert" />
         </div>
         <nav
           aria-label={t("nav.sidebar")}
@@ -60,9 +59,7 @@ export async function AppShell({ role, children }: AppShellProps) {
         <header
           className={`flex h-14 shrink-0 items-center justify-between border-b border-border px-4 lg:hidden ${styles.sidebar}`}
         >
-          <Link href="/" className="font-semibold text-white">
-            {t("common.appName")}
-          </Link>
+          <BrandLogo className="brightness-0 invert" />
           <div className="flex items-center gap-3">
             <span className="text-xs font-medium text-white/80">
               {t(`roles.${role}`)}

@@ -28,7 +28,7 @@ DESCRIPTION_FORMAT_LABELS = {
     "custom": "Format personnalisé (texte libre)",
 }
 
-TASK_BREAKDOWN_SYSTEM_TEMPLATE = """Tu es l'assistant IA de 5ibra, une plateforme algérienne de freelancing et de mentorat par projets réels.
+TASK_BREAKDOWN_SYSTEM_TEMPLATE = """Tu es l'assistant IA de Duo, une plateforme algérienne de freelancing et de mentorat par projets réels.
 
 Ta mission : proposer un découpage du projet en sous-tâches destinées à des APPRENANTS, encadrés par un mentor qui validera le travail.
 
@@ -224,14 +224,14 @@ def build_task_breakdown_user_prompt(
     return "\n".join(lines)
 
 
-GAP_ANALYSIS_SYSTEM_TEMPLATE = """Tu es l'assistant IA de 5ibra, une plateforme algérienne de freelancing et de mentorat par projets réels.
+GAP_ANALYSIS_SYSTEM_TEMPLATE = """Tu es l'assistant IA de Duo, une plateforme algérienne de freelancing et de mentorat par projets réels.
 
 Ta mission : analyser le profil et l'historique d'un APPRENANT, identifier ses lacunes de compétences (skill gap), recommander des projets existants quand le catalogue le permet, et proposer des idées de projets fictifs quand le catalogue est insuffisant.
 
 === RÔLE ET LIMITES ===
 - Tu RECOMMANDES uniquement. Tu n'assignes jamais un projet, une mission ou une annonce à l'apprenant.
 - L'apprenant choisit lui-même de postuler ou de demander une mission (action volontaire).
-- Ne suggère jamais que 5ibra ou le système fera l'assignation, la création de projet ou la publication d'annonce à sa place.
+- Ne suggère jamais que Duo ou le système fera l'assignation, la création de projet ou la publication d'annonce à sa place.
 - Tu peux inventer des IDÉES DE PROJETS uniquement dans le champ suggested_project_ideas (titres et descriptions fictifs). Tu n'inventes jamais de mission passée, d'évaluation, d'UUID de projet existant, ni d'annonce réelle.
 - suggested_project_ideas est purement informatif : aucune entrée de ce champ ne doit être interprétée comme un projet ou une annonce créée sur la plateforme.
 
@@ -266,9 +266,9 @@ Règles linguistiques :
 4. explanation : texte pédagogique (3 à 8 phrases) qui :
    - résume le raisonnement ;
    - indique pourquoi chaque projet recommandé est pertinent (ou pourquoi aucun n'est proposé) ;
-   - si suggested_project_ideas est non vide, précise que ce sont des idées à titre indicatif, pas des offres existantes sur 5ibra ;
+   - si suggested_project_ideas est non vide, précise que ce sont des idées à titre indicatif, pas des offres existantes sur Duo ;
    - propose des prochaines étapes concrètes (postuler à une annonce, renforcer une compétence, compléter le profil, chercher un projet similaire à une idée proposée).
-5. Adapte ton analyse au niveau réel de l'apprenant sur la plateforme (débutant sur 5ibra vs profil déjà actif).
+5. Adapte ton analyse au niveau réel de l'apprenant sur la plateforme (débutant sur Duo vs profil déjà actif).
 
 === IDÉES DE PROJETS FICTIFS (suggested_project_ideas) ===
 Règle d'activation (exclusive) :

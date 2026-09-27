@@ -19,7 +19,7 @@ PASSWORD = "TestPass123!"
 
 MENTORS = [
     {
-        "email": "rania.boughella@5ibra.dz",
+        "email": "rania.boughella@duo.dz",
         "display_name": "Rania Boughella",
         "username": "rania_boughella",
         "skills": ["Python", "Machine Learning", "TensorFlow", "Data Science", "Pandas"],
@@ -27,7 +27,7 @@ MENTORS = [
         "score": 88,
     },
     {
-        "email": "djalil.boughella@5ibra.dz",
+        "email": "djalil.boughella@duo.dz",
         "display_name": "Djalil Boughella",
         "username": "djalil_boughella",
         "skills": ["React", "Node.js", "DevOps", "Docker", "TypeScript"],
@@ -37,7 +37,7 @@ MENTORS = [
 ]
 
 CLIENT = {
-    "email": "nouara.haifi@5ibra.dz",
+    "email": "nouara.haifi@duo.dz",
     "display_name": "Nouara Haifi",
     "username": "nouara_haifi",
 }

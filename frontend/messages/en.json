@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "5ibra",
+    "appName": "Duo",
     "login": "Sign in",
     "register": "Sign up",
     "logout": "Sign out",
@@ -39,11 +39,11 @@
     "boostPremium": "Boost & Premium"
   },
   "home": {
-    "metaTitle": "5ibra — Freelancing, mentoring and learning through real projects",
+    "metaTitle": "Duo — Freelancing, mentoring and learning through real projects",
     "metaDescription": "Publish projects, mentor learners, or build skills on real missions. Built for Algeria.",
     "hero": {
       "title": "Find a mentor. Learn on real projects. Deliver with confidence.",
-      "subtitle": "5ibra connects clients, mentors and learners around real missions — with structured guidance and AI-powered matching."
+      "subtitle": "Duo connects clients, mentors and learners around real missions — with structured guidance and AI-powered matching."
     },
     "roles": {
       "client": "I am a client",
@@ -56,15 +56,15 @@
     }
   },
   "auth": {
-    "metaTitle": "Sign in — 5ibra",
-    "loginMetaTitle": "Sign in — 5ibra",
-    "registerMetaTitle": "Sign up — 5ibra",
-    "panelTitle": "Welcome to 5ibra",
+    "metaTitle": "Sign in — Duo",
+    "loginMetaTitle": "Sign in — Duo",
+    "registerMetaTitle": "Sign up — Duo",
+    "panelTitle": "Welcome to Duo",
     "panelSubtitle": "The platform connecting clients, mentors and learners through real projects in Algeria.",
     "loginHeading": "Sign in",
     "loginSubtitle": "Access your dashboard and continue your projects.",
     "registerHeading": "Create your account",
-    "registerSubtitle": "Join 5ibra as a client, mentor or learner.",
+    "registerSubtitle": "Join Duo as a client, mentor or learner.",
     "loginTitle": "Sign in",
     "registerTitle": "Sign up",
     "displayName": "Display name",
@@ -80,38 +80,38 @@
     "forgotPassword": "Forgot password?"
   },
   "legal": {
-    "metaTitle": "Legal — 5ibra",
+    "metaTitle": "Legal — Duo",
     "title": "Terms and privacy",
     "termsTitle": "Terms of use",
-    "termsBody": "5ibra terms of use will be published here before public launch.",
+    "termsBody": "Duo terms of use will be published here before public launch.",
     "privacyTitle": "Privacy policy",
     "privacyBody": "The privacy policy will detail how your data is collected, stored and protected."
   },
   "mentors": {
-    "metaTitle": "Mentor directory — 5ibra",
+    "metaTitle": "Mentor directory — Duo",
     "title": "Mentor directory",
     "subtitle": "Discover verified mentors by field, score and reviews.",
     "score": "Score {score}/100",
     "viewProfile": "View profile"
   },
   "mentorProfile": {
-    "metaTitle": "Mentor profile — 5ibra",
+    "metaTitle": "Mentor profile — Duo",
     "certified": "Certified mentor",
     "services": "Services offered",
     "openAnnouncements": "Open listings"
   },
   "portfolio": {
-    "metaTitle": "Learner portfolio — 5ibra",
+    "metaTitle": "Learner portfolio — Duo",
     "score": "Score {score}/100",
     "validatedSkills": "Validated skills"
   },
   "annonce": {
-    "metaTitle": "Listing — 5ibra",
+    "metaTitle": "Listing — Duo",
     "apply": "Apply",
     "requiredSkills": "Required skills"
   },
   "account": {
-    "metaTitle": "My account — 5ibra",
+    "metaTitle": "My account — Duo",
     "title": "My account",
     "subtitle": "Profile, settings and reviews received.",
     "profileTab": "Profile",
@@ -119,13 +119,13 @@
     "reviewsTab": "My reviews"
   },
   "messages": {
-    "metaTitle": "Messages — 5ibra",
+    "metaTitle": "Messages — Duo",
     "title": "Messages",
     "subtitle": "Your conversations by project and contact.",
     "empty": "No conversations yet."
   },
   "notifications": {
-    "metaTitle": "Notifications — 5ibra",
+    "metaTitle": "Notifications — Duo",
     "title": "Notifications",
     "subtitle": "Applications, deliverables, messages and alerts.",
     "empty": "No notifications."
@@ -170,7 +170,7 @@
     "boostPremium": { "title": "Boost & Premium", "description": "Offers and confirmations." }
   },
   "footer": {
-    "copyright": "© {year} 5ibra. All rights reserved.",
+    "copyright": "© {year} Duo. All rights reserved.",
     "legalNav": "Legal links",
     "legal": "Terms of use",
     "privacy": "Privacy policy"

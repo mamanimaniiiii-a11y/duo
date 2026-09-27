@@ -1,1 +1,1 @@
-"""5ibra FastAPI backend."""
+"""Duo FastAPI backend."""

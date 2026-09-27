@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "5ibra API"
+    app_name: str = "Duo API"
     debug: bool = False
     api_v1_prefix: str = "/api/v1"
 

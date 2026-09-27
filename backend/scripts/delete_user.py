@@ -4,10 +4,10 @@ Supprime un utilisateur de la base Supabase et les données liées (CASCADE).
 Usage :
   cd backend
   .\\.venv\\Scripts\\Activate.ps1
-  python scripts/delete_user.py --email admin@test.5ibra.dz
+  python scripts/delete_user.py --email admin@test.duo.dz
 
   # Sans confirmation interactive :
-  python scripts/delete_user.py --email admin@test.5ibra.dz --yes
+  python scripts/delete_user.py --email admin@test.duo.dz --yes
 
 Puis recréer l'admin :
   python scripts/create_admin.py
@@ -71,8 +71,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Supprime un utilisateur et ses données liées.")
     parser.add_argument(
         "--email",
-        default="admin@test.5ibra.dz",
-        help="Email de l'utilisateur à supprimer (défaut : admin@test.5ibra.dz)",
+        default="admin@test.duo.dz",
+        help="Email de l'utilisateur à supprimer (défaut : admin@test.duo.dz)",
     )
     parser.add_argument(
         "--yes",

@@ -21,7 +21,7 @@ export type FetchApiOptions = {
 };
 
 /**
- * Client HTTP minimal vers l'API 5ibra.
+ * Client HTTP minimal vers l'API Duo.
  * Préfixe automatiquement NEXT_PUBLIC_API_URL ; path doit commencer par / (ex. /public/categories).
  */
 export async function fetchApi<T>(
