@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func, select
 
 from app.core.deps import DbSession, require_roles
@@ -11,6 +11,7 @@ from app.models.enums import (
     ListingStatus,
     ProjectStatus,
     SubscriptionStatus,
+    TaskStatus,
     UserRole,
 )
 from app.models.listing import Listing
@@ -32,7 +33,9 @@ from app.schemas.project import (
     TaskUpdate,
 )
 from app.schemas.user import ApprenantSummary, UserSummary
-from app.services.score_service import compute_mentor_score_breakdown
+from app.services.score_service import compute_mentor_score_breakdown, recalculate_mentor_score
+from app.services.match_service import compute_match_for_mentor
+from app.services.notification_service import create_notification
 from app.services.serializers import apprenant_to_summary, user_to_summary
 
 
@@ -109,7 +112,9 @@ def list_available_projects(
         )
         .order_by(Project.created_at.desc())
     ).all()
-    return [_to_available_project(db, p) for p in projects]
+    available = [_to_available_project(db, p, current_user) for p in projects]
+    available.sort(key=lambda item: item.match_score or 0, reverse=True)
+    return available
 
 
 @router.post(
@@ -155,6 +160,54 @@ def get_mentor_project(
     if not project or project.mentor_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Projet introuvable")
     return _to_mentor_project_detail(db, project)
+
+
+@router.get("/apprenants/assignable", response_model=list[ApprenantSummary])
+def list_assignable_apprenants(
+    db: DbSession,
+    current_user: User = Depends(require_roles(UserRole.MENTOR)),
+    limit: int = Query(default=50, ge=1, le=100),
+) -> list[ApprenantSummary]:
+    """Apprenants actifs disponibles pour assignation de tâches (rôle apprenant uniquement)."""
+    users = db.scalars(
+        select(User)
+        .where(
+            User.role == UserRole.APPRENANT,
+            User.is_active.is_(True),
+        )
+        .order_by(User.username)
+        .limit(limit)
+    ).all()
+    results: list[ApprenantSummary] = []
+    for user in users:
+        profile = db.scalar(select(ApprenantProfile).where(ApprenantProfile.user_id == user.id))
+        results.append(apprenant_to_summary(user, profile))
+    return results
+
+
+@router.get("/apprenants/search", response_model=list[ApprenantSummary])
+def search_apprenants_by_username(
+    db: DbSession,
+    username: str = Query(min_length=2, max_length=30),
+    current_user: User = Depends(require_roles(UserRole.MENTOR)),
+) -> list[ApprenantSummary]:
+    """Recherche d'apprenants par username (préfixe) pour assignation de tâches."""
+    query = username.strip().lower()
+    users = db.scalars(
+        select(User)
+        .where(
+            User.role == UserRole.APPRENANT,
+            User.is_active.is_(True),
+            User.username.ilike(f"{query}%"),
+        )
+        .order_by(User.username)
+        .limit(10)
+    ).all()
+    results: list[ApprenantSummary] = []
+    for user in users:
+        profile = db.scalar(select(ApprenantProfile).where(ApprenantProfile.user_id == user.id))
+        results.append(apprenant_to_summary(user, profile))
+    return results
 
 
 @router.get("/projects/{project_id}/eligible-apprenants", response_model=list[ApprenantSummary])
@@ -243,17 +296,44 @@ def update_project_task(
     if not task or task.project_id != project_id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tâche introuvable")
     data = payload.model_dump(exclude_unset=True)
-    if "assigned_apprenant_id" in data and data["assigned_apprenant_id"] is not None:
-        apprenant = db.get(User, data["assigned_apprenant_id"])
+    previous_status = task.status
+    new_apprenant_id = data.get("assigned_apprenant_id")
+    if new_apprenant_id is not None:
+        apprenant = db.get(User, new_apprenant_id)
         if not apprenant or apprenant.role != UserRole.APPRENANT:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Apprenant invalide",
             )
+    previous_apprenant_id = task.assigned_apprenant_id
     for field, value in data.items():
         setattr(task, field, value)
+    if (
+        new_apprenant_id is not None
+        and new_apprenant_id != previous_apprenant_id
+    ):
+        project = db.get(Project, project_id)
+        mentor_name = current_user.display_name
+        project_title = project.title if project else "un projet"
+        create_notification(
+            db,
+            user_id=new_apprenant_id,
+            title="Nouvelle mission assignée",
+            body=f"{mentor_name} vous a assigné la tâche « {task.title} » sur le projet « {project_title} ».",
+            link=f"/apprenant/missions/{task.id}",
+            extra_data={
+                "type": "task_assigned",
+                "task_id": str(task.id),
+                "project_id": str(project_id),
+            },
+        )
     db.commit()
     db.refresh(task)
+    if (
+        task.status == TaskStatus.APPROVED
+        and previous_status != TaskStatus.APPROVED
+    ):
+        recalculate_mentor_score(db, current_user)
     return TaskPublic.model_validate(task)
 
 
@@ -490,8 +570,17 @@ def mentor_progression(
     return compute_mentor_score_breakdown(db, current_user)
 
 
-def _to_available_project(db: DbSession, project: Project) -> AvailableProjectPublic:
+def _to_available_project(
+    db: DbSession,
+    project: Project,
+    mentor_user: User | None = None,
+) -> AvailableProjectPublic:
     client = db.get(User, project.client_id)
+    match_score = None
+    if mentor_user:
+        match = compute_match_for_mentor(db, project, mentor_user)
+        if match:
+            match_score = match.match_score
     return AvailableProjectPublic(
         id=project.id,
         title=project.title,
@@ -500,9 +589,11 @@ def _to_available_project(db: DbSession, project: Project) -> AvailableProjectPu
         status=project.status,
         budget_dzd=project.budget_dzd,
         deadline=project.deadline,
+        required_skills=project.required_skills or [],
+        match_score=match_score,
         client=user_to_summary(client)
         if client
-        else UserSummary(id=project.client_id, display_name="—"),
+        else UserSummary(id=project.client_id, username="unknown", display_name="—"),
     )
 
 
@@ -525,11 +616,13 @@ def _to_mentor_project_detail(db: DbSession, project: Project) -> MentorProjectD
         id=project.id,
         title=project.title,
         description=project.description,
+        description_format=project.description_format,
+        learner_complexity_level=project.learner_complexity_level,
         category_id=project.category_id,
         status=project.status,
         client=user_to_summary(client)
         if client
-        else UserSummary(id=project.client_id, display_name="—"),
+        else UserSummary(id=project.client_id, username="unknown", display_name="—"),
         progress_percent=project.progress_percent,
         tasks=[TaskPublic.model_validate(t) for t in tasks],
         deliverables=[DeliverablePublic.model_validate(d) for d in deliverables],

@@ -7,11 +7,9 @@ import { ContentCard } from "@/components/ui/content-card";
 import { FormField, formControlClass } from "@/components/ui/form-field";
 import { PageContainer } from "@/components/ui/page-container";
 import { getApiErrorMessage } from "@/lib/api/errors";
-import {
-  createMentorPack,
-  createMentorTask,
-  updateMentorTask,
-} from "@/lib/api/roles/mentor";
+import { MentorAiTaskBreakdown } from "@/components/mentor/mentor-ai-task-breakdown";
+import { TaskAssignApprenant } from "@/components/mentor/task-assign-apprenant";
+import { createMentorPack, createMentorTask } from "@/lib/api/roles/mentor";
 import { getClientAccessToken } from "@/lib/auth/client-storage";
 import type { MentorPack } from "@/lib/types/pack";
 import type { MentorProjectDetail } from "@/lib/types/project";
@@ -20,6 +18,7 @@ import type { ApprenantSummary } from "@/lib/types/user";
 type MentorProjectWorkspaceProps = {
   project: MentorProjectDetail;
   eligibleApprenants: ApprenantSummary[];
+  assignableApprenants: ApprenantSummary[];
   packs: MentorPack[];
 };
 
@@ -33,6 +32,7 @@ function parseLines(raw: string): string[] {
 export function MentorProjectWorkspace({
   project,
   eligibleApprenants,
+  assignableApprenants,
   packs: initialPacks,
 }: MentorProjectWorkspaceProps) {
   const router = useRouter();
@@ -40,7 +40,6 @@ export function MentorProjectWorkspace({
   const [error, setError] = useState<string | null>(null);
   const [taskLoading, setTaskLoading] = useState(false);
   const [packLoading, setPackLoading] = useState(false);
-  const [assigningTaskId, setAssigningTaskId] = useState<string | null>(null);
 
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -52,9 +51,14 @@ export function MentorProjectWorkspace({
   const [packDuration, setPackDuration] = useState("30");
   const [packMaxProjects, setPackMaxProjects] = useState("1");
 
-  const apprenantNameById = new Map(
-    [...eligibleApprenants, ...project.assignedApprenants].map((a) => [a.id, a.displayName]),
+  const apprenantById = new Map(
+    [...assignableApprenants, ...eligibleApprenants, ...project.assignedApprenants].map(
+      (a) => [a.id, a],
+    ),
   );
+
+  const canUseAiBreakdown =
+    project.status === "assigned" || project.status === "in_progress";
 
   async function handleCreateTask(event: React.FormEvent) {
     event.preventDefault();
@@ -77,24 +81,6 @@ export function MentorProjectWorkspace({
       setError(getApiErrorMessage(err, "register"));
     } finally {
       setTaskLoading(false);
-    }
-  }
-
-  async function handleAssignTask(taskId: string, apprenantId: string) {
-    const token = getClientAccessToken();
-    if (!token) return;
-
-    setError(null);
-    setAssigningTaskId(taskId);
-    try {
-      await updateMentorTask(token, project.id, taskId, {
-        assignedApprenantId: apprenantId || null,
-      });
-      router.refresh();
-    } catch (err) {
-      setError(getApiErrorMessage(err, "register"));
-    } finally {
-      setAssigningTaskId(null);
     }
   }
 
@@ -173,6 +159,22 @@ export function MentorProjectWorkspace({
 
         <ContentCard accent="primary" className="shadow-sm lg:col-span-2">
           <h2 className="font-semibold text-primary-600">Tâches</h2>
+          {assignableApprenants.length > 0 && (
+            <p className="mt-2 text-xs text-text-muted">
+              Apprenants disponibles pour assignation :{" "}
+              {assignableApprenants.map((a) => `@${a.username}`).join(", ")}
+            </p>
+          )}
+
+          {canUseAiBreakdown && (
+            <div className="mt-4">
+              <MentorAiTaskBreakdown
+                projectId={project.id}
+                learnerComplexityLevel={project.learnerComplexityLevel}
+                existingTaskCount={project.tasks.length}
+              />
+            </div>
+          )}
 
           {project.tasks.length === 0 ? (
             <p className="mt-2 text-sm text-text-muted">Aucune tâche pour ce projet.</p>
@@ -191,29 +193,16 @@ export function MentorProjectWorkspace({
                       )}
                       <p className="mt-1 text-xs text-text-muted">Statut : {task.status}</p>
                     </div>
-                    <div className="min-w-[200px]">
-                      <label className="mb-1 block text-xs font-medium text-text-muted">
-                        Assigner un apprenant
-                      </label>
-                      <select
-                        value={task.assignedApprenantId ?? ""}
-                        disabled={assigningTaskId === task.id || eligibleApprenants.length === 0}
-                        onChange={(e) => handleAssignTask(task.id, e.target.value)}
-                        className={formControlClass}
-                      >
-                        <option value="">Non assigné</option>
-                        {eligibleApprenants.map((apprenant) => (
-                          <option key={apprenant.id} value={apprenant.id}>
-                            {apprenant.displayName}
-                          </option>
-                        ))}
-                      </select>
-                      {task.assignedApprenantId && (
-                        <p className="mt-1 text-xs text-text-muted">
-                          {apprenantNameById.get(task.assignedApprenantId) ?? "Assigné"}
-                        </p>
-                      )}
-                    </div>
+                    <TaskAssignApprenant
+                      projectId={project.id}
+                      taskId={task.id}
+                      assignableApprenants={assignableApprenants}
+                      assignedApprenant={
+                        task.assignedApprenantId
+                          ? apprenantById.get(task.assignedApprenantId)
+                          : undefined
+                      }
+                    />
                   </div>
                 </li>
               ))}

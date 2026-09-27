@@ -7,6 +7,7 @@ from app.models.enums import UserRole
 from app.models.profile import ApprenantProfile, ClientProfile, MentorProfile
 from app.models.user import User
 from app.schemas.auth import RegisterRequest, TokenResponse
+from app.services.username import resolve_username
 
 
 def register_user(db: Session, payload: RegisterRequest) -> User:
@@ -23,8 +24,22 @@ def register_user(db: Session, payload: RegisterRequest) -> User:
             detail="Un compte existe déjà avec cet email",
         )
 
+    try:
+        username = resolve_username(
+            db,
+            requested=payload.username,
+            display_name=payload.display_name,
+            email=payload.email.lower(),
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(exc),
+        ) from exc
+
     user = User(
         email=payload.email.lower(),
+        username=username,
         hashed_password=get_password_hash(payload.password),
         role=payload.role,
         display_name=payload.display_name,

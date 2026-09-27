@@ -1,9 +1,17 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
-from app.models.enums import DeliverableStatus, ProjectStatus, TaskStatus
+from app.services.skill_list import normalize_skill_list
+
+from app.models.enums import (
+    DeliverableStatus,
+    LearnerComplexityLevel,
+    ProjectDescriptionFormat,
+    ProjectStatus,
+    TaskStatus,
+)
 from app.schemas.common import ORMModel
 from app.schemas.user import ApprenantSummary, MentorSummary, UserSummary
 
@@ -11,9 +19,17 @@ from app.schemas.user import ApprenantSummary, MentorSummary, UserSummary
 class ProjectCreate(BaseModel):
     title: str = Field(min_length=3, max_length=200)
     description: str = Field(min_length=10)
+    description_format: ProjectDescriptionFormat = ProjectDescriptionFormat.STANDARD
+    learner_complexity_level: LearnerComplexityLevel = LearnerComplexityLevel.BEGINNER
     category_id: UUID
     budget_dzd: int | None = Field(default=None, ge=0)
     deadline: datetime | None = None
+    required_skills: list[str] = Field(default_factory=list)
+
+    @field_validator("required_skills")
+    @classmethod
+    def normalize_required_skills(cls, value: list[str]) -> list[str]:
+        return normalize_skill_list(value)
 
 
 class ProjectUpdate(BaseModel):
@@ -24,6 +40,14 @@ class ProjectUpdate(BaseModel):
     deadline: datetime | None = None
     status: ProjectStatus | None = None
     progress_percent: int | None = Field(default=None, ge=0, le=100)
+    required_skills: list[str] | None = None
+
+    @field_validator("required_skills")
+    @classmethod
+    def normalize_required_skills(cls, value: list[str] | None) -> list[str] | None:
+        if value is None:
+            return None
+        return normalize_skill_list(value)
 
 
 class DeliverablePublic(ORMModel):
@@ -79,13 +103,29 @@ class ClientProjectDetail(ORMModel):
     id: UUID
     title: str
     description: str
+    description_format: ProjectDescriptionFormat
+    learner_complexity_level: LearnerComplexityLevel
     category_id: UUID
     status: ProjectStatus
     budget_dzd: int | None = None
     deadline: datetime | None = None
     progress_percent: int
+    required_skills: list[str]
+    mentor_match_score: int | None = None
     mentor: MentorSummary | None = None
     deliverables: list[DeliverablePublic]
+
+
+class MentorMatchPublic(BaseModel):
+    mentor: MentorSummary
+    match_score: int
+    skills_overlap: int
+    skills_match_percent: int
+    mentor_score: int
+
+
+class AssignMentorRequest(BaseModel):
+    mentor_id: UUID
 
 
 class AvailableProjectPublic(ORMModel):
@@ -98,6 +138,8 @@ class AvailableProjectPublic(ORMModel):
     status: ProjectStatus
     budget_dzd: int | None = None
     deadline: datetime | None = None
+    required_skills: list[str]
+    match_score: int | None = None
     client: UserSummary
 
 
@@ -105,6 +147,8 @@ class MentorProjectDetail(ORMModel):
     id: UUID
     title: str
     description: str
+    description_format: ProjectDescriptionFormat
+    learner_complexity_level: LearnerComplexityLevel
     category_id: UUID
     status: ProjectStatus
     client: UserSummary

@@ -60,6 +60,7 @@ class MentorProfile(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     projects_completed_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     apprentices_mentored_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     average_rating: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
+    skills: Mapped[list] = mapped_column(JSONB, default=list, nullable=False)
 
     user = relationship("User", back_populates="mentor_profile")
     categories = relationship("Category", secondary=mentor_categories, back_populates="mentors")

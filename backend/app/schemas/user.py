@@ -1,6 +1,8 @@
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+from app.services.skill_list import normalize_skill_list
 
 from app.models.enums import BoostStatus, Locale, UserRole
 from app.schemas.common import ORMModel, ScoreBreakdown
@@ -21,6 +23,14 @@ class MentorProfileUpdate(BaseModel):
     bio: str | None = None
     service_category_ids: list[UUID] | None = None
     availability_note: str | None = None
+    skills: list[str] | None = None
+
+    @field_validator("skills")
+    @classmethod
+    def normalize_skills(cls, value: list[str] | None) -> list[str] | None:
+        if value is None:
+            return None
+        return normalize_skill_list(value)
 
 
 class ApprenantProfileUpdate(BaseModel):
@@ -36,6 +46,7 @@ class MentorProfilePublic(ORMModel):
     user_id: UUID
     bio: str
     service_category_ids: list[UUID]
+    skills: list[str]
     score: int
     is_certified: bool
     is_premium: bool
@@ -55,11 +66,13 @@ class ApprenantProfilePublic(ORMModel):
 
 class UserSummary(ORMModel):
     id: UUID
+    username: str
     display_name: str
     avatar_url: str | None = None
 
 
 class MentorSummary(UserSummary):
+    skills: list[str] = Field(default_factory=list)
     score: int
     is_certified: bool
 
@@ -71,6 +84,7 @@ class ApprenantSummary(UserSummary):
 class AccountResponse(ORMModel):
     id: UUID
     email: str
+    username: str
     role: UserRole
     display_name: str
     avatar_url: str | None = None

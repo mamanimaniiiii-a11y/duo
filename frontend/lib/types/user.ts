@@ -3,6 +3,7 @@ import type { BoostStatus, Locale, Score, UserRole } from "./common";
 export interface User {
   id: string;
   email: string;
+  username: string;
   role: UserRole;
   displayName: string;
   avatarUrl?: string;
@@ -15,6 +16,7 @@ export interface MentorProfile {
   userId: string;
   bio: string;
   serviceCategoryIds: string[];
+  skills: string[];
   score: Score;
   isCertified: boolean;
   isPremium: boolean;
@@ -45,14 +47,17 @@ export interface ClientSummary {
 
 export interface MentorSummary {
   id: string;
+  username: string;
   displayName: string;
   avatarUrl?: string;
+  skills: string[];
   score: Score;
   isCertified: boolean;
 }
 
 export interface ApprenantSummary {
   id: string;
+  username: string;
   displayName: string;
   avatarUrl?: string;
   score: Score;

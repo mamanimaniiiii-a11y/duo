@@ -32,6 +32,7 @@ export function toUser(record: Record<string, unknown>): User {
   return {
     id: String(record.id),
     email: String(record.email),
+    username: String(record.username ?? ""),
     role: record.role as User["role"],
     displayName: String(record.display_name),
     avatarUrl: record.avatar_url ? String(record.avatar_url) : undefined,
@@ -44,8 +45,10 @@ export function toUser(record: Record<string, unknown>): User {
 export function toMentorSummary(record: Record<string, unknown>): MentorSummary {
   return {
     id: String(record.id),
+    username: String(record.username ?? ""),
     displayName: String(record.display_name),
     avatarUrl: record.avatar_url ? String(record.avatar_url) : undefined,
+    skills: (record.skills as string[]) ?? [],
     score: Number(record.score ?? 0),
     isCertified: Boolean(record.is_certified),
   };
@@ -54,6 +57,7 @@ export function toMentorSummary(record: Record<string, unknown>): MentorSummary 
 export function toApprenantSummary(record: Record<string, unknown>): ApprenantSummary {
   return {
     id: String(record.id),
+    username: String(record.username ?? ""),
     displayName: String(record.display_name),
     avatarUrl: record.avatar_url ? String(record.avatar_url) : undefined,
     score: Number(record.score ?? 0),
@@ -125,11 +129,18 @@ export function toClientProject(record: Record<string, unknown>): ClientProjectD
     id: String(record.id),
     title: String(record.title),
     description: String(record.description),
+    descriptionFormat: (record.description_format as ClientProjectDetail["descriptionFormat"]) ?? "standard",
+    learnerComplexityLevel:
+      (record.learner_complexity_level as ClientProjectDetail["learnerComplexityLevel"]) ??
+      "beginner",
     categoryId: String(record.category_id),
     status: record.status as ClientProjectDetail["status"],
     budgetDzd: record.budget_dzd != null ? Number(record.budget_dzd) : undefined,
     deadline: iso(record.deadline as string | null),
     progressPercent: Number(record.progress_percent ?? 0),
+    requiredSkills: (record.required_skills as string[]) ?? [],
+    mentorMatchScore:
+      record.mentor_match_score != null ? Number(record.mentor_match_score) : undefined,
     mentor: record.mentor
       ? toMentorSummary(record.mentor as Record<string, unknown>)
       : undefined,
@@ -144,6 +155,10 @@ export function toMentorProject(record: Record<string, unknown>): MentorProjectD
     id: String(record.id),
     title: String(record.title),
     description: String(record.description),
+    descriptionFormat: (record.description_format as MentorProjectDetail["descriptionFormat"]) ?? "standard",
+    learnerComplexityLevel:
+      (record.learner_complexity_level as MentorProjectDetail["learnerComplexityLevel"]) ??
+      "beginner",
     categoryId: String(record.category_id),
     status: record.status as MentorProjectDetail["status"],
     client: toClientSummary(record.client as Record<string, unknown>),
@@ -167,7 +182,19 @@ export function toAvailableProject(record: Record<string, unknown>) {
     status: String(record.status),
     budgetDzd: record.budget_dzd != null ? Number(record.budget_dzd) : undefined,
     deadline: iso(record.deadline as string | null),
+    requiredSkills: (record.required_skills as string[]) ?? [],
+    matchScore: record.match_score != null ? Number(record.match_score) : undefined,
     client: toClientSummary(record.client as Record<string, unknown>),
+  };
+}
+
+export function toMentorProjectMatch(record: Record<string, unknown>) {
+  return {
+    mentor: toMentorSummary(record.mentor as Record<string, unknown>),
+    matchScore: Number(record.match_score ?? 0),
+    skillsOverlap: Number(record.skills_overlap ?? 0),
+    skillsMatchPercent: Number(record.skills_match_percent ?? 0),
+    mentorScore: Number(record.mentor_score ?? 0),
   };
 }
 
@@ -342,6 +369,7 @@ export function toAccount(record: Record<string, unknown>): Account {
   return {
     id: String(record.id),
     email: String(record.email),
+    username: String(record.username ?? ""),
     role: record.role as Account["role"],
     displayName: String(record.display_name),
     avatarUrl: record.avatar_url ? String(record.avatar_url) : undefined,
@@ -358,6 +386,7 @@ export function toAccount(record: Record<string, unknown>): Account {
           userId: String(mentor.user_id),
           bio: String(mentor.bio ?? ""),
           serviceCategoryIds: (mentor.service_category_ids as string[]) ?? [],
+          skills: (mentor.skills as string[]) ?? [],
           score: Number(mentor.score ?? 0),
           isCertified: Boolean(mentor.is_certified),
           isPremium: Boolean(mentor.is_premium),

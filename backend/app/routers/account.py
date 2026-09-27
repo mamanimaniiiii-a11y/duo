@@ -98,6 +98,8 @@ def update_mentor_profile(
             select(Category).where(Category.id.in_(payload.service_category_ids))
         ).all()
         profile.categories = list(categories)
+    if payload.skills is not None:
+        profile.skills = payload.skills
     db.commit()
     return get_account(db, current_user)
 

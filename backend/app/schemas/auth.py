@@ -12,6 +12,12 @@ class RegisterRequest(BaseModel):
     display_name: str = Field(min_length=2, max_length=120)
     role: UserRole
     locale: Locale = Locale.FR
+    username: str | None = Field(
+        default=None,
+        min_length=3,
+        max_length=30,
+        description="Identifiant unique (généré automatiquement si omis)",
+    )
     skills: list[str] = Field(default_factory=list, description="Compétences initiales (apprenant)")
     career_goal: str = Field(default="", description="Objectif de carrière (apprenant)")
 

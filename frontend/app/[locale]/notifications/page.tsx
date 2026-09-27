@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { PublicPageLayout } from "@/components/layout/public-page-layout";
 import { ContentCard } from "@/components/ui/content-card";
 import { PageHeader } from "@/components/ui/page-header";
@@ -37,6 +38,14 @@ export default async function NotificationsPage({ params }: NotificationsPagePro
               <ContentCard key={notification.id} accent="highlight">
                 <p className="font-medium text-text-primary">{notification.title}</p>
                 <p className="mt-1 text-sm text-text-muted">{notification.body}</p>
+                {notification.link && (
+                  <Link
+                    href={notification.link}
+                    className="mt-2 inline-block text-sm font-medium text-primary-600 hover:underline"
+                  >
+                    Voir la mission
+                  </Link>
+                )}
                 <p className="mt-2 text-xs text-text-muted">
                   {notification.isRead ? "Lu" : "Non lu"} · {notification.createdAt}
                 </p>

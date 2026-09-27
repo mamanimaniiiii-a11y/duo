@@ -14,6 +14,19 @@ class Locale(str, enum.Enum):
     AR = "ar"
 
 
+class ProjectDescriptionFormat(str, enum.Enum):
+    SHORT = "short"
+    STANDARD = "standard"
+    DETAILED = "detailed"
+    CUSTOM = "custom"
+
+
+class LearnerComplexityLevel(str, enum.Enum):
+    BEGINNER = "beginner"
+    INTERMEDIATE = "intermediate"
+    ADVANCED = "advanced"
+
+
 class ProjectStatus(str, enum.Enum):
     DRAFT = "draft"
     PUBLISHED = "published"

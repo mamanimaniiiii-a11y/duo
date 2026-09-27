@@ -3,7 +3,7 @@ Tests ciblés des endpoints IA (découpage tâches).
 
 Prérequis :
   - API en cours d'exécution (uvicorn) OU utiliser --direct pour appeler le service sans HTTP
-  - OPENAI_API_KEY dans backend/.env (fichier enregistré sur disque) + redémarrage uvicorn
+  - Clé IA dans backend/.env selon AI_PROVIDER (OPENAI_API_KEY ou GROQ_API_KEY)
   - Projet mentor en statut assigned/in_progress
 
 Variables d'environnement (optionnelles) :
@@ -43,6 +43,7 @@ if _env_path.exists():
 
 API_BASE = os.getenv("API_BASE_URL", "http://127.0.0.1:8000/api/v1").rstrip("/")
 MENTOR_EMAIL = os.getenv("TEST_MENTOR_EMAIL", "mentor@test.5ibra.dz")
+APPRENANT_EMAIL = os.getenv("TEST_APPRENANT_EMAIL", "apprenant2@test.5ibra.dz")
 PASSWORD = os.getenv("TEST_API_PASSWORD", "TestPass123!")
 PROJECT_ID = os.getenv(
     "TEST_AI_PROJECT_ID", "23c67abf-0730-4678-a360-9c20705a44e6"
@@ -104,10 +105,13 @@ def set_locale(token: str, locale: str) -> None:
         raise RuntimeError(f"Locale attendue {locale}, obtenue {payload.get('locale')}")
 
 
-def preview_breakdown(token: str, project_id: str) -> dict:
+def preview_breakdown(token: str, project_id: str, task_count: int | None = None) -> dict:
+    path = f"/ai/projects/{project_id}/task-breakdown"
+    if task_count is not None:
+        path = f"{path}?task_count={task_count}"
     status, payload = request_json(
         "POST",
-        f"/ai/projects/{project_id}/task-breakdown",
+        path,
         token=token,
     )
     if status != 200:
@@ -146,10 +150,13 @@ def validate_breakdown(payload: dict, locale: str) -> list[str]:
 
 def run_http_tests(locales: list[str], project_id: str, apply: bool) -> int:
     from app.core.config import get_settings
+    from app.services.ai.ai_provider import resolve_ai_provider_config
 
     settings = get_settings()
-    if not settings.openai_api_key:
-        print("ERREUR : OPENAI_API_KEY absente du .env chargé par l'API.")
+    try:
+        provider, _, base_url, model = resolve_ai_provider_config(settings)
+    except RuntimeError as exc:
+        print(f"ERREUR : {exc}")
         print("→ Enregistrez backend/.env (Ctrl+S) puis redémarrez uvicorn.")
         return 1
 
@@ -157,7 +164,10 @@ def run_http_tests(locales: list[str], project_id: str, apply: bool) -> int:
     print(f"Mentor     : {MENTOR_EMAIL}")
     print(f"Projet     : {project_id}")
     print(f"Locales    : {', '.join(locales)}")
-    print(f"Modèle IA  : {settings.ai_model}")
+    print(f"Provider   : {provider}")
+    print(f"Modèle IA  : {model}")
+    if base_url:
+        print(f"Base URL   : {base_url}")
     print()
 
     token = login()
@@ -207,7 +217,158 @@ def run_http_tests(locales: list[str], project_id: str, apply: bool) -> int:
     return 1 if failures else 0
 
 
-def run_direct_preview(locale: str, project_id: str) -> int:
+def _validate_gap_result(result: dict, *, expect_ideas: bool) -> list[str]:
+    errors: list[str] = []
+    ids = result.get("recommended_project_ids") or []
+    ideas = result.get("suggested_project_ideas") or []
+    if ids and ideas:
+        errors.append("Exclusion mutuelle violée : IDs et idées fictives présents")
+    if expect_ideas and not ids and not ideas:
+        errors.append("Catalogue vide mais aucune suggested_project_ideas générée")
+    if not expect_ideas and ideas:
+        errors.append("Catalogue non vide : suggested_project_ideas devrait être vide")
+    if not ids and ideas:
+        for idea in ideas:
+            if not idea.get("title") or not idea.get("description"):
+                errors.append("Idée fictive incomplète")
+            if not idea.get("target_skills"):
+                errors.append("Idée fictive sans target_skills")
+    return errors
+
+
+def run_direct_gap_analysis(locales: list[str]) -> int:
+    """Appelle l'analyse de lacunes directement (bypass HTTP / uvicorn)."""
+    from sqlalchemy import select
+
+    from app.core.config import get_settings
+    from app.core.database import SessionLocal
+    from app.models.enums import Locale
+    from app.models.user import User
+    from app.services.ai.ai_provider import resolve_ai_provider_config
+    from app.services.ai.gap_analysis import build_learner_gap_context, generate_gap_analysis
+
+    get_settings.cache_clear()
+    settings = get_settings()
+    try:
+        provider, _, base_url, model = resolve_ai_provider_config(settings)
+        print(f"Provider   : {provider}")
+        print(f"Modèle IA  : {model}")
+        if base_url:
+            print(f"Base URL   : {base_url}")
+        print()
+    except RuntimeError as exc:
+        print(f"ERREUR : {exc}")
+        return 1
+
+    db = SessionLocal()
+    apprenant = db.scalar(select(User).where(User.email == APPRENANT_EMAIL))
+    if not apprenant:
+        print(f"ERREUR : apprenant introuvable ({APPRENANT_EMAIL})")
+        return 1
+
+    failures = 0
+    for locale in locales:
+        print(f"\n{'=' * 60}")
+        print(f"--- locale={locale} ---")
+        print(f"{'=' * 60}")
+        apprenant.locale = Locale(locale)
+        db.commit()
+
+        context = build_learner_gap_context(db, apprenant)
+        expect_ideas = len(context.opportunities) == 0
+        print(f"Apprenant  : {context.display_name} ({APPRENANT_EMAIL})")
+        print(f"history_richness : {context.history_richness}")
+        print(f"missions   : {len(context.missions)}")
+        print(f"reviews    : {len(context.reviews)}")
+        print(f"catalogue  : {len(context.opportunities)} opportunité(s)")
+        print()
+
+        result = generate_gap_analysis(db, apprenant)
+        payload = result.model_dump(mode="json")
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        for err in _validate_gap_result(payload, expect_ideas=expect_ideas):
+            failures += 1
+            print(f"VALIDATION : {err}")
+
+    db.close()
+    print(f"\n=== Résumé gap-analysis : {failures} échec(s) ===")
+    return 1 if failures else 0
+
+
+def run_direct_gap_analysis_with_catalog(locale: str = "fr") -> int:
+    """Crée une annonce ouverte liée à un projet si besoin, puis vérifie l'exclusion mutuelle."""
+    from sqlalchemy import select
+
+    from app.core.config import get_settings
+    from app.core.database import SessionLocal
+    from app.models.enums import ListingStatus, Locale, ProjectStatus
+    from app.models.listing import Listing
+    from app.models.project import Project
+    from app.models.user import User
+    from app.services.ai.gap_analysis import build_learner_gap_context, generate_gap_analysis
+
+    get_settings.cache_clear()
+    db = SessionLocal()
+
+    listing = db.scalar(
+        select(Listing).where(
+            Listing.status == ListingStatus.OPEN,
+            Listing.project_id.is_not(None),
+        )
+    )
+    if not listing:
+        project = db.scalar(
+            select(Project).where(
+                Project.mentor_id.is_not(None),
+                Project.status.in_([ProjectStatus.ASSIGNED, ProjectStatus.IN_PROGRESS]),
+            )
+        )
+        mentor = db.get(User, project.mentor_id) if project else None
+        if not project or not mentor:
+            print("ERREUR : aucun projet mentor pour créer une annonce de test")
+            return 1
+        listing = Listing(
+            mentor_id=mentor.id,
+            title="Annonce test gap-analysis catalogue",
+            description="Annonce ouverte de test pour vérifier recommended_project_ids vs idées fictives.",
+            required_skills=["Python", "React"],
+            project_id=project.id,
+            status=ListingStatus.OPEN,
+        )
+        db.add(listing)
+        db.commit()
+        db.refresh(listing)
+        print(f"Annonce test créée : {listing.id} → projet {project.id}")
+    else:
+        print(f"Annonce existante utilisée : {listing.id} → projet {listing.project_id}")
+
+    apprenant = db.scalar(select(User).where(User.email == APPRENANT_EMAIL))
+    if not apprenant:
+        print(f"ERREUR : apprenant introuvable ({APPRENANT_EMAIL})")
+        return 1
+    apprenant.locale = Locale(locale)
+    db.commit()
+
+    context = build_learner_gap_context(db, apprenant)
+    print(f"catalogue  : {len(context.opportunities)} opportunité(s)")
+    result = generate_gap_analysis(db, apprenant)
+    payload = result.model_dump(mode="json")
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
+
+    failures = 0
+    if not payload.get("recommended_project_ids"):
+        print("WARN : le modèle n'a recommandé aucun projet du catalogue (acceptable pour le test serveur)")
+    if payload.get("suggested_project_ideas"):
+        failures += 1
+        print("ERREUR : suggested_project_ideas non vide alors que le catalogue contient des opportunités")
+    elif payload.get("recommended_project_ids"):
+        print("OK : recommended_project_ids présents, suggested_project_ideas vide")
+
+    db.close()
+    return 1 if failures else 0
+
+
+def run_direct_preview(locale: str, project_id: str, task_count: int | None = None) -> int:
     """Appelle le service Python directement (bypass HTTP / uvicorn)."""
     from sqlalchemy import select
 
@@ -215,12 +376,20 @@ def run_direct_preview(locale: str, project_id: str) -> int:
     from app.core.database import SessionLocal
     from app.models.enums import Locale
     from app.models.user import User
+    from app.services.ai.ai_provider import resolve_ai_provider_config
     from app.services.ai.task_breakdown import generate_task_breakdown_preview
 
     get_settings.cache_clear()
     settings = get_settings()
-    if not settings.openai_api_key:
-        print("ERREUR : OPENAI_API_KEY absente du .env sur disque.")
+    try:
+        provider, _, base_url, model = resolve_ai_provider_config(settings)
+        print(f"Provider   : {provider}")
+        print(f"Modèle IA  : {model}")
+        if base_url:
+            print(f"Base URL   : {base_url}")
+        print()
+    except RuntimeError as exc:
+        print(f"ERREUR : {exc}")
         return 1
 
     db = SessionLocal()
@@ -231,7 +400,12 @@ def run_direct_preview(locale: str, project_id: str) -> int:
     mentor.locale = Locale(locale)
     db.commit()
 
-    result = generate_task_breakdown_preview(db, UUID(project_id), mentor)
+    result = generate_task_breakdown_preview(
+        db,
+        UUID(project_id),
+        mentor,
+        task_count=task_count,
+    )
     print(json.dumps(result.model_dump(mode="json"), ensure_ascii=False, indent=2))
     db.close()
     return 0
@@ -258,12 +432,36 @@ def main() -> None:
         action="store_true",
         help="Appel service direct (1 locale via --locales), sans HTTP",
     )
+    parser.add_argument(
+        "--task-count",
+        type=int,
+        default=None,
+        help="Nombre exact de sous-tâches souhaité (3-8)",
+    )
+    parser.add_argument(
+        "--gap-analysis",
+        action="store_true",
+        help="Tester l'analyse de lacunes apprenant (avec --direct)",
+    )
+    parser.add_argument(
+        "--gap-catalog-test",
+        action="store_true",
+        help="Tester gap-analysis avec catalogue non vide (avec --direct)",
+    )
     args = parser.parse_args()
     locales = [x.strip() for x in args.locales.split(",") if x.strip()]
 
+    if args.direct and args.gap_catalog_test:
+        locale = locales[0] if locales else "fr"
+        raise SystemExit(run_direct_gap_analysis_with_catalog(locale))
+
+    if args.direct and args.gap_analysis:
+        run_locales = locales if locales else ["fr", "ar", "en"]
+        raise SystemExit(run_direct_gap_analysis(run_locales))
+
     if args.direct:
         locale = locales[0] if locales else "ar"
-        raise SystemExit(run_direct_preview(locale, args.project_id))
+        raise SystemExit(run_direct_preview(locale, args.project_id, args.task_count))
 
     raise SystemExit(run_http_tests(locales, args.project_id, args.apply))
 

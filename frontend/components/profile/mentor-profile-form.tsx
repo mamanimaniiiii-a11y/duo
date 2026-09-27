@@ -13,17 +13,27 @@ type MentorProfileFormProps = {
   categories: Category[];
   initialBio: string;
   initialCategoryIds: string[];
+  initialSkills: string[];
 };
+
+function parseSkills(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
 
 export function MentorProfileForm({
   locale,
   categories,
   initialBio,
   initialCategoryIds,
+  initialSkills,
 }: MentorProfileFormProps) {
   const router = useRouter();
   const [bio, setBio] = useState(initialBio);
   const [selectedIds, setSelectedIds] = useState<string[]>(initialCategoryIds);
+  const [skillsInput, setSkillsInput] = useState(initialSkills.join(", "));
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -50,6 +60,7 @@ export function MentorProfileForm({
       await updateMentorProfile(token, {
         bio: bio.trim(),
         serviceCategoryIds: selectedIds,
+        skills: parseSkills(skillsInput),
       });
       setSaved(true);
       router.refresh();
@@ -100,6 +111,23 @@ export function MentorProfileForm({
           })}
         </div>
       </fieldset>
+      <div>
+        <label htmlFor="skills" className="mb-1.5 block text-sm font-medium text-text-primary">
+          Compétences
+        </label>
+        <input
+          id="skills"
+          type="text"
+          value={skillsInput}
+          onChange={(e) => setSkillsInput(e.target.value)}
+          placeholder="React, SEO, Figma"
+          className="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm outline-none focus:border-primary-600"
+        />
+        <p className="mt-1.5 text-xs text-text-muted">
+          Séparez par des virgules. Affichées sur votre profil. Pas encore utilisées pour le
+          matching automatique.
+        </p>
+      </div>
       {error && (
         <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
           {error}

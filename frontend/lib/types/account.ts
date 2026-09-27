@@ -5,6 +5,7 @@ import type { ApprenantProfile, ClientProfile, MentorProfile } from "./user";
 export interface Account {
   id: string;
   email: string;
+  username: string;
   role: UserRole;
   displayName: string;
   avatarUrl?: string;

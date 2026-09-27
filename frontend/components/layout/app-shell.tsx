@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { LogoutButton } from "@/components/auth/logout-button";
 import {
   ROLE_NAV,
   ROLE_SHELL_STYLES,
@@ -47,6 +48,12 @@ export async function AppShell({ role, children }: AppShellProps) {
             </Link>
           ))}
         </nav>
+        <div className="border-t border-white/10 p-3">
+          <LogoutButton
+            label={t("common.logout")}
+            className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-white/90 transition-colors hover:bg-white/10"
+          />
+        </div>
       </aside>
 
       <div className="flex min-h-screen min-w-0 flex-1 flex-col bg-surface-50">
@@ -56,9 +63,15 @@ export async function AppShell({ role, children }: AppShellProps) {
           <Link href="/" className="font-semibold text-white">
             {t("common.appName")}
           </Link>
-          <span className="text-xs font-medium text-white/80">
-            {t(`roles.${role}`)}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-medium text-white/80">
+              {t(`roles.${role}`)}
+            </span>
+            <LogoutButton
+              label={t("common.logout")}
+              className="rounded-lg border border-white/20 px-2.5 py-1 text-xs font-medium text-white transition-colors hover:bg-white/10"
+            />
+          </div>
         </header>
         <div className="flex-1 overflow-x-hidden p-4 sm:p-6 lg:p-8">{children}</div>
       </div>

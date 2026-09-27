@@ -12,6 +12,10 @@ export type UserRole = "client" | "mentor" | "apprenant" | "admin";
 /** Score de réputation, toujours borné 0–100 */
 export type Score = number;
 
+export type ProjectDescriptionFormat = "short" | "standard" | "detailed" | "custom";
+
+export type LearnerComplexityLevel = "beginner" | "intermediate" | "advanced";
+
 export type ProjectStatus =
   | "draft"
   | "published"

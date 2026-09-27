@@ -3,6 +3,7 @@
     "appName": "5ibra",
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
     "languageSwitcher": "تغيير اللغة",
     "comingSoon": "الميزة قيد التطوير — الواجهة جاهزة، البيانات قيد الربط.",
     "backHome": "العودة إلى الصفحة الرئيسية"
@@ -137,7 +138,7 @@
     "projectDetail": { "title": "تفاصيل المشروع", "description": "التقدم العام والتسليمات النهائية." }
   },
   "mentorPages": {
-    "dashboard": { "title": "لوحة تحكم المرشد", "description": "المشاريع، الطلبات والنتيجة." },
+    "dashboard": { "title": "مرحباً، {name}", "description": "المشاريع، الطلبات والنتيجة." },
     "onboarding": { "title": "إعداد ملف المرشد", "description": "الخدمات، السيرة والتوفر." },
     "profile": { "title": "ملفي كمرشد", "description": "واجهتكم العامة." },
     "projects": { "title": "المشاريع", "description": "المتاحة والمهام الجارية." },
@@ -154,6 +155,7 @@
     "profile": { "title": "الملف والمحفظة", "description": "واجهتكم العامة." },
     "discover": { "title": "اكتشف", "description": "توصيات الذكاء الاصطناعي، الإعلانات والفجوات." },
     "activity": { "title": "نشاطي", "description": "الطلبات والمهام." },
+    "missions": { "title": "مهامي", "description": "جميع المهام المسندة إليكم من قبل المرشدين." },
     "mission": { "title": "تفاصيل المهمة", "description": "مهمتكم وسياق المشروع." },
     "progression": { "title": "تقدمي", "description": "النتيجة على 100 والمسار نحو العمل الحر." },
     "packs": { "title": "الباقات المتاحة", "description": "مرافقة يقترحها المرشدون." },

@@ -16,7 +16,7 @@ import type { Application } from "@/lib/types/application";
 import type { BoostOption } from "@/lib/types/boost";
 import type { DashboardStats } from "@/lib/types/dashboard";
 import type { MentorPack } from "@/lib/types/pack";
-import type { MentorProjectDetail } from "@/lib/types/project";
+import type { AvailableProject, MentorProjectDetail } from "@/lib/types/project";
 import type { ScoreBreakdown } from "@/lib/types/review";
 import type { ApprenantSummary } from "@/lib/types/user";
 
@@ -34,7 +34,7 @@ export async function getMentorProjects(token: string): Promise<MentorProjectDet
   return records.map(toMentorProject);
 }
 
-export async function getMentorAvailableProjects(token: string) {
+export async function getMentorAvailableProjects(token: string): Promise<AvailableProject[]> {
   const records = await fetchApi<Record<string, unknown>[]>(
     "/mentor/projects/disponibles",
     { token },
@@ -106,6 +106,24 @@ export async function getMentorProjectPacks(
     { token },
   );
   return records.map(toMentorPack);
+}
+
+export async function getAssignableApprenants(token: string): Promise<ApprenantSummary[]> {
+  const records = await fetchApi<Record<string, unknown>[]>("/mentor/apprenants/assignable", {
+    token,
+  });
+  return records.map(toApprenantSummary);
+}
+
+export async function searchMentorApprenantsByUsername(
+  token: string,
+  username: string,
+): Promise<ApprenantSummary[]> {
+  const records = await fetchApi<Record<string, unknown>[]>(
+    `/mentor/apprenants/search?username=${encodeURIComponent(username)}`,
+    { token },
+  );
+  return records.map(toApprenantSummary);
 }
 
 export async function getMentorProjectEligibleApprenants(

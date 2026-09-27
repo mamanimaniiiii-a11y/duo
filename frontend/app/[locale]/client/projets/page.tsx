@@ -5,6 +5,17 @@ import { ApiEmptyState, ApiErrorBox } from "@/components/ui/api-state";
 import { EntityCard } from "@/components/data/entity-card";
 import { getClientProjects } from "@/lib/api/roles/client";
 import { requireRole } from "@/lib/auth/server";
+import type { ProjectStatus } from "@/lib/types/common";
+
+const STATUS_LABELS: Record<ProjectStatus, string> = {
+  draft: "Brouillon — à publier",
+  published: "Publié — en attente d'un mentor",
+  assigned: "Assigné à un mentor",
+  in_progress: "En cours",
+  delivered: "Livré",
+  completed: "Terminé",
+  cancelled: "Annulé",
+};
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -38,7 +49,7 @@ export default async function ClientProjectsPage({ params }: PageProps) {
                 href={`/client/projets/${project.id}`}
                 title={project.title}
                 description={project.description}
-                meta={`${project.status} · ${project.progressPercent}%`}
+                meta={`${STATUS_LABELS[project.status] ?? project.status} · ${project.progressPercent}%`}
               />
             ))
           )}

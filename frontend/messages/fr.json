@@ -3,6 +3,7 @@
     "appName": "5ibra",
     "login": "Se connecter",
     "register": "S'inscrire",
+    "logout": "Se déconnecter",
     "languageSwitcher": "Changer de langue",
     "comingSoon": "Fonctionnalité en cours de développement — interface prête, données à connecter.",
     "backHome": "Retour à l'accueil"
@@ -137,7 +138,7 @@
     "projectDetail": { "title": "Détail du projet", "description": "Avancement global et livrables finaux." }
   },
   "mentorPages": {
-    "dashboard": { "title": "Tableau de bord mentor", "description": "Projets, candidatures et score." },
+    "dashboard": { "title": "Bonjour, {name}", "description": "Projets, candidatures et score." },
     "onboarding": { "title": "Configurer votre profil mentor", "description": "Services, bio et disponibilité." },
     "profile": { "title": "Mon profil mentor", "description": "Votre vitrine publique." },
     "projects": { "title": "Projets", "description": "Disponibles et missions en cours." },
@@ -154,6 +155,7 @@
     "profile": { "title": "Profil et portfolio", "description": "Votre vitrine publique." },
     "discover": { "title": "Découvrir", "description": "Recommandations IA, annonces et lacunes." },
     "activity": { "title": "Mon activité", "description": "Candidatures et missions." },
+    "missions": { "title": "Mes missions", "description": "Toutes vos tâches assignées par les mentors." },
     "mission": { "title": "Détail de la mission", "description": "Votre tâche et le contexte du projet." },
     "progression": { "title": "Ma progression", "description": "Score sur 100 et chemin vers le freelance." },
     "packs": { "title": "Packs disponibles", "description": "Accompagnement proposé par les mentors." },

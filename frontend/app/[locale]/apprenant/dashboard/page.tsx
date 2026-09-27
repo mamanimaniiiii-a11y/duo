@@ -31,6 +31,7 @@ export default async function ApprenantDashboardPage({ params }: PageProps) {
           { label: "Score", value: stats.scoreBreakdown?.total ?? 0, accent: "primary" },
         ]}
         actions={[
+          { href: "/apprenant/missions", label: "Mes missions" },
           { href: "/apprenant/decouvrir", label: "Découvrir les annonces" },
           { href: "/apprenant/activite", label: "Mon activité" },
           { href: "/apprenant/packs", label: "Packs mentor" },

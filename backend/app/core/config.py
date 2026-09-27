@@ -28,8 +28,11 @@ class Settings(BaseSettings):
 
     cors_origins: str = "http://localhost:3000"
 
+    ai_provider: str = "openai"
     openai_api_key: str | None = None
-    ai_model: str = "gpt-4o-mini"
+    groq_api_key: str | None = None
+    ai_model: str | None = None
+    ai_base_url: str | None = None
     ai_enabled: bool = True
 
     @property

@@ -3,6 +3,7 @@ import { MentorProjectWorkspace } from "@/components/mentor/mentor-project-works
 import { PageHeader } from "@/components/ui/page-header";
 import { ApiErrorBox } from "@/components/ui/api-state";
 import {
+  getAssignableApprenants,
   getMentorProject,
   getMentorProjectEligibleApprenants,
   getMentorProjectPacks,
@@ -18,9 +19,10 @@ export default async function MentorProjectDetailPage({ params }: PageProps) {
 
   try {
     const { token } = await requireRole(locale, "mentor");
-    const [project, eligibleApprenants, packs] = await Promise.all([
+    const [project, eligibleApprenants, assignableApprenants, packs] = await Promise.all([
       getMentorProject(token, id),
       getMentorProjectEligibleApprenants(token, id),
+      getAssignableApprenants(token),
       getMentorProjectPacks(token, id),
     ]);
 
@@ -30,6 +32,7 @@ export default async function MentorProjectDetailPage({ params }: PageProps) {
         <MentorProjectWorkspace
           project={project}
           eligibleApprenants={eligibleApprenants}
+          assignableApprenants={assignableApprenants}
           packs={packs}
         />
       </>

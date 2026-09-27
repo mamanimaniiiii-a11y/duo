@@ -32,6 +32,7 @@ export default async function MentorProfilePage({ params }: PageProps) {
             categories={categories.filter((c) => c.isActive)}
             initialBio={account.mentorProfile?.bio ?? ""}
             initialCategoryIds={account.mentorProfile?.serviceCategoryIds ?? []}
+            initialSkills={account.mentorProfile?.skills ?? []}
           />
         </ContentCard>
       </PageContainer>

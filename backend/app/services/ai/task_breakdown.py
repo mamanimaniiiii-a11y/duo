@@ -12,12 +12,13 @@ from app.models.project import Deliverable, Project, Task
 from app.models.user import User
 from app.schemas.ai import AiTaskBreakdown, SuggestedTask, TaskBreakdownApplyRequest
 from app.schemas.project import TaskPublic
-from app.services.ai.openai_client import OpenAIService
+from app.services.ai.ai_provider import AIProvider
 from app.services.ai.prompts import (
-    TASK_BREAKDOWN_JSON_SCHEMA,
+    build_task_breakdown_json_schema,
     build_task_breakdown_system_prompt,
     build_task_breakdown_user_prompt,
     resolve_output_locale,
+    resolve_task_count_bounds,
 )
 
 
@@ -33,7 +34,7 @@ def _get_mentor_project(db: Session, project_id: UUID, mentor_id: UUID) -> Proje
     return project
 
 
-def _build_user_prompt(db: Session, project: Project) -> str:
+def _build_user_prompt(db: Session, project: Project, task_count: int | None = None) -> str:
     category = db.get(Category, project.category_id)
     deliverables = db.scalars(
         select(Deliverable).where(Deliverable.project_id == project.id)
@@ -59,17 +60,26 @@ def _build_user_prompt(db: Session, project: Project) -> str:
         deliverables=[{"title": d.title, "status": d.status.value} for d in deliverables],
         assigned_apprenants_count=assigned_count,
         existing_tasks=[{"title": t.title, "sort_order": t.sort_order} for t in existing_tasks],
+        task_count=task_count,
+        description_format=project.description_format.value,
+        learner_complexity_level=project.learner_complexity_level.value,
     )
 
 
 def validate_suggested_tasks(
     tasks: list[SuggestedTask],
     project_deadline: datetime | None,
+    task_count: int | None = None,
 ) -> None:
-    if not (3 <= len(tasks) <= 8):
+    min_tasks, max_tasks = resolve_task_count_bounds(task_count)
+    if not (min_tasks <= len(tasks) <= max_tasks):
+        if task_count is not None:
+            detail = f"Le découpage doit contenir exactement {task_count} sous-tâches"
+        else:
+            detail = "Le découpage doit contenir entre 3 et 8 sous-tâches"
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Le découpage doit contenir entre 3 et 8 sous-tâches",
+            detail=detail,
         )
 
     sort_orders = [task.sort_order for task in tasks]
@@ -103,6 +113,7 @@ def generate_task_breakdown_preview(
     db: Session,
     project_id: UUID,
     mentor: User,
+    task_count: int | None = None,
 ) -> AiTaskBreakdown:
     settings = get_settings()
     if not settings.ai_enabled:
@@ -113,19 +124,28 @@ def generate_task_breakdown_preview(
 
     project = _get_mentor_project(db, project_id, mentor.id)
     locale = resolve_output_locale(mentor.locale.value if mentor.locale else Locale.FR.value)
-    system_prompt = build_task_breakdown_system_prompt(locale)
-    user_prompt = _build_user_prompt(db, project)
+    system_prompt = build_task_breakdown_system_prompt(
+        locale,
+        task_count=task_count,
+        learner_complexity_level=project.learner_complexity_level.value,
+    )
+    user_prompt = _build_user_prompt(db, project, task_count=task_count)
+    json_schema = build_task_breakdown_json_schema(task_count)
 
     try:
-        client = OpenAIService()
+        client = AIProvider()
         raw = client.complete_json_schema(
             system_prompt=system_prompt,
             user_prompt=user_prompt,
             schema_name="task_breakdown",
-            schema=TASK_BREAKDOWN_JSON_SCHEMA,
+            schema=json_schema,
         )
         breakdown = AiTaskBreakdown.model_validate(raw)
-        validate_suggested_tasks(breakdown.suggested_tasks, project.deadline)
+        validate_suggested_tasks(
+            breakdown.suggested_tasks,
+            project.deadline,
+            task_count=task_count,
+        )
         return breakdown
     except HTTPException:
         raise
@@ -143,6 +163,14 @@ def apply_task_breakdown(
     payload: TaskBreakdownApplyRequest,
 ) -> list[TaskPublic]:
     project = _get_mentor_project(db, project_id, mentor.id)
+    existing_count = db.scalar(
+        select(func.count(Task.id)).where(Task.project_id == project.id)
+    ) or 0
+    if existing_count > 0:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Ce projet a déjà des tâches enregistrées. Assignez-les aux apprenants sans regénérer.",
+        )
     validate_suggested_tasks(payload.suggested_tasks, project.deadline)
 
     created: list[Task] = []

@@ -34,7 +34,12 @@ export async function completeOnboarding(token: string): Promise<void> {
 
 export async function updateMentorProfile(
   token: string,
-  payload: { bio?: string; availabilityNote?: string; serviceCategoryIds?: string[] },
+  payload: {
+    bio?: string;
+    availabilityNote?: string;
+    serviceCategoryIds?: string[];
+    skills?: string[];
+  },
 ): Promise<Account> {
   const record = await fetchApi<Record<string, unknown>>("/account/mentor-profile", {
     method: "PATCH",
@@ -43,6 +48,7 @@ export async function updateMentorProfile(
       bio: payload.bio,
       availability_note: payload.availabilityNote,
       service_category_ids: payload.serviceCategoryIds,
+      skills: payload.skills,
     },
   });
   return toAccount(record);

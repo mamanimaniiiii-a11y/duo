@@ -7,7 +7,13 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from app.models.enum_column import pg_enum
-from app.models.enums import DeliverableStatus, ProjectStatus, TaskStatus
+from app.models.enums import (
+    DeliverableStatus,
+    LearnerComplexityLevel,
+    ProjectDescriptionFormat,
+    ProjectStatus,
+    TaskStatus,
+)
 
 
 class Project(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -24,12 +30,23 @@ class Project(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     )
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
+    description_format: Mapped[ProjectDescriptionFormat] = mapped_column(
+        pg_enum(ProjectDescriptionFormat, name="project_description_format"),
+        default=ProjectDescriptionFormat.STANDARD,
+        nullable=False,
+    )
+    learner_complexity_level: Mapped[LearnerComplexityLevel] = mapped_column(
+        pg_enum(LearnerComplexityLevel, name="learner_complexity_level"),
+        default=LearnerComplexityLevel.BEGINNER,
+        nullable=False,
+    )
     status: Mapped[ProjectStatus] = mapped_column(
         pg_enum(ProjectStatus, name="project_status"), default=ProjectStatus.DRAFT, nullable=False
     )
     budget_dzd: Mapped[int | None] = mapped_column(Integer, nullable=True)
     deadline: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     progress_percent: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    required_skills: Mapped[list] = mapped_column(JSONB, default=list, nullable=False)
 
     category = relationship("Category", back_populates="projects")
     tasks = relationship("Task", back_populates="project", cascade="all, delete-orphan")

@@ -9,15 +9,15 @@ type PageProps = { params: Promise<{ locale: string }> };
 export default async function MentorDashboardPage({ params }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("mentor.dashboard");
+  const t = await getTranslations("mentorPages.dashboard");
 
   try {
-    const { token } = await requireRole(locale, "mentor");
+    const { token, user } = await requireRole(locale, "mentor");
     const stats = await getMentorDashboard(token);
 
     return (
       <RoleDashboardView
-        title={t("title")}
+        title={t("title", { name: user.displayName })}
         description={t("description")}
         variant="accent"
         stats={[

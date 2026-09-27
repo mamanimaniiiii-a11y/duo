@@ -21,8 +21,15 @@ export interface AiReviewReport {
   summary: string;
 }
 
+export interface SuggestedProjectIdea {
+  title: string;
+  description: string;
+  targetSkills: string[];
+}
+
 export interface AiGapRecommendation {
   skillGap: string;
   recommendedProjectIds: string[];
   explanation: string;
+  suggestedProjectIdeas: SuggestedProjectIdea[];
 }

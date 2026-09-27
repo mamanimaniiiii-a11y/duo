@@ -26,14 +26,21 @@ def category_to_public(category: Category) -> CategoryPublic:
 
 
 def user_to_summary(user: User) -> UserSummary:
-    return UserSummary(id=user.id, display_name=user.display_name, avatar_url=user.avatar_url)
+    return UserSummary(
+        id=user.id,
+        username=user.username,
+        display_name=user.display_name,
+        avatar_url=user.avatar_url,
+    )
 
 
 def mentor_to_summary(user: User, profile: MentorProfile | None = None) -> MentorSummary:
     return MentorSummary(
         id=user.id,
+        username=user.username,
         display_name=user.display_name,
         avatar_url=user.avatar_url,
+        skills=profile.skills or [] if profile else [],
         score=profile.score if profile else 0,
         is_certified=profile.is_certified if profile else False,
     )
@@ -42,6 +49,7 @@ def mentor_to_summary(user: User, profile: MentorProfile | None = None) -> Mento
 def apprenant_to_summary(user: User, profile: ApprenantProfile | None = None) -> ApprenantSummary:
     return ApprenantSummary(
         id=user.id,
+        username=user.username,
         display_name=user.display_name,
         avatar_url=user.avatar_url,
         score=profile.score if profile else 0,
@@ -53,6 +61,7 @@ def mentor_profile_to_public(profile: MentorProfile) -> MentorProfilePublic:
         user_id=profile.user_id,
         bio=profile.bio,
         service_category_ids=[cat.id for cat in profile.categories],
+        skills=profile.skills or [],
         score=profile.score,
         is_certified=profile.is_certified,
         is_premium=profile.is_premium,
@@ -83,6 +92,7 @@ def account_to_response(
     return AccountResponse(
         id=user.id,
         email=user.email,
+        username=user.username,
         role=user.role,
         display_name=user.display_name,
         avatar_url=user.avatar_url,

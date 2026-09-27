@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { IBM_Plex_Sans_Arabic, Source_Sans_3 } from "next/font/google";
+import { LocaleHtmlAttributes } from "@/components/layout/locale-html-attributes";
 import { routing, type AppLocale } from "@/i18n/routing";
-import "../globals.css";
 
 const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
@@ -40,19 +40,15 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
-  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html
-      lang={locale}
-      dir={dir}
-      className={`${sourceSans.variable} ${ibmPlexArabic.variable} min-h-screen`}
-    >
-      <body className="flex min-h-screen flex-col antialiased">
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <LocaleHtmlAttributes />
+      <div
+        className={`${sourceSans.variable} ${ibmPlexArabic.variable} flex min-h-screen flex-col`}
+      >
+        {children}
+      </div>
+    </NextIntlClientProvider>
   );
 }

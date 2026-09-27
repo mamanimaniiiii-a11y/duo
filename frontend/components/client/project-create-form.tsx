@@ -1,39 +1,110 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { ContentCard } from "@/components/ui/content-card";
 import { FormField, formControlClass } from "@/components/ui/form-field";
+import { SkillsInput } from "@/components/ui/skills-input";
 import { createClientProject } from "@/lib/api/roles/client";
 import { getClientAccessToken } from "@/lib/auth/client-storage";
 import { getApiErrorMessage } from "@/lib/api/errors";
+import { parseSkillsInput } from "@/lib/utils/skills";
 import type { Category } from "@/lib/types/category";
+import type {
+  LearnerComplexityLevel,
+  ProjectDescriptionFormat,
+} from "@/lib/types/common";
 
 type ProjectCreateFormProps = {
   categories: Category[];
 };
 
+const DESCRIPTION_FORMAT_OPTIONS: {
+  value: ProjectDescriptionFormat;
+  label: string;
+  rows: number;
+  placeholder: string;
+  hint: string;
+}[] = [
+  {
+    value: "short",
+    label: "Résumé court (5 lignes)",
+    rows: 5,
+    placeholder: "Contexte, objectif principal, livrable clé, contrainte, délai souhaité…",
+    hint: "Environ 5 lignes. Idéal pour un besoin simple et ciblé.",
+  },
+  {
+    value: "standard",
+    label: "Description standard (10 lignes)",
+    rows: 8,
+    placeholder: "Contexte, objectifs, livrables attendus, contraintes techniques, public visé…",
+    hint: "Environ 10 lignes. Le format le plus courant.",
+  },
+  {
+    value: "detailed",
+    label: "Description détaillée (1 page)",
+    rows: 14,
+    placeholder:
+      "Contexte métier, objectifs détaillés, périmètre, livrables, critères de qualité, contraintes, planning…",
+    hint: "Description complète (~1 page) pour cadrer finement le projet.",
+  },
+  {
+    value: "custom",
+    label: "Personnalisé (texte libre)",
+    rows: 10,
+    placeholder: "Rédigez librement la description du projet…",
+    hint: "Longueur libre selon votre besoin.",
+  },
+];
+
+const COMPLEXITY_OPTIONS: { value: LearnerComplexityLevel; label: string }[] = [
+  { value: "beginner", label: "Débutant" },
+  { value: "intermediate", label: "Intermédiaire" },
+  { value: "advanced", label: "Avancé" },
+];
+
 export function ProjectCreateForm({ categories }: ProjectCreateFormProps) {
   const router = useRouter();
   const [title, setTitle] = useState("");
+  const [descriptionFormat, setDescriptionFormat] =
+    useState<ProjectDescriptionFormat>("standard");
   const [description, setDescription] = useState("");
+  const [learnerComplexityLevel, setLearnerComplexityLevel] =
+    useState<LearnerComplexityLevel>("beginner");
   const [categoryId, setCategoryId] = useState(categories[0]?.id ?? "");
   const [budgetDzd, setBudgetDzd] = useState("");
+  const [requiredSkillsInput, setRequiredSkillsInput] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const formatConfig = useMemo(
+    () =>
+      DESCRIPTION_FORMAT_OPTIONS.find((option) => option.value === descriptionFormat) ??
+      DESCRIPTION_FORMAT_OPTIONS[1],
+    [descriptionFormat],
+  );
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     const token = getClientAccessToken();
     if (!token) return;
+    const requiredSkills = parseSkillsInput(requiredSkillsInput);
+    if (requiredSkills.length === 0) {
+      setError("Ajoutez au moins une compétence requise pour le mentor.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
       const project = await createClientProject(token, {
         title: title.trim(),
         description: description.trim(),
+        descriptionFormat,
+        learnerComplexityLevel,
         categoryId,
         budgetDzd: budgetDzd ? Number(budgetDzd) : undefined,
+        requiredSkills,
       });
       router.push(`/client/projets/${project.id}`);
       router.refresh();
@@ -67,21 +138,74 @@ export function ProjectCreateForm({ categories }: ProjectCreateFormProps) {
             />
           </FormField>
 
-          <FormField
-            label="Description"
-            htmlFor="project-description"
-            hint="Minimum 10 caractères — soyez précis sur les livrables attendus."
-          >
-            <textarea
-              id="project-description"
-              required
-              minLength={10}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className={`${formControlClass} min-h-32 resize-y`}
-              placeholder="Décrivez le contexte, les objectifs et les contraintes…"
-            />
-          </FormField>
+          <fieldset className="space-y-3 rounded-lg border border-border bg-surface-50 p-4">
+            <legend className="px-1 text-sm font-semibold text-text-primary">
+              Description du projet
+            </legend>
+
+            <FormField label="Format de description" htmlFor="project-description-format">
+              <select
+                id="project-description-format"
+                value={descriptionFormat}
+                onChange={(e) =>
+                  setDescriptionFormat(e.target.value as ProjectDescriptionFormat)
+                }
+                className={formControlClass}
+              >
+                {DESCRIPTION_FORMAT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+
+            <FormField
+              label="Description"
+              htmlFor="project-description"
+              hint={formatConfig.hint}
+            >
+              <textarea
+                id="project-description"
+                required
+                minLength={10}
+                rows={formatConfig.rows}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className={`${formControlClass} resize-y`}
+                placeholder={formatConfig.placeholder}
+              />
+            </FormField>
+
+            <FormField
+              label="Niveau de complexité souhaité pour les apprenants"
+              htmlFor="project-complexity"
+            >
+              <select
+                id="project-complexity"
+                value={learnerComplexityLevel}
+                onChange={(e) =>
+                  setLearnerComplexityLevel(e.target.value as LearnerComplexityLevel)
+                }
+                className={formControlClass}
+              >
+                {COMPLEXITY_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+          </fieldset>
+
+          <SkillsInput
+            id="project-required-skills"
+            label="Compétences requises du mentor"
+            value={requiredSkillsInput}
+            onChange={setRequiredSkillsInput}
+            hint="Utilisées pour matcher le mentor le plus adapté (score + compétences)."
+            required
+          />
 
           <FormField label="Catégorie" htmlFor="project-category">
             <select

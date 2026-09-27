@@ -1,4 +1,8 @@
-import type { ProjectStatus } from "./common";
+import type {
+  LearnerComplexityLevel,
+  ProjectDescriptionFormat,
+  ProjectStatus,
+} from "./common";
 import type { Deliverable } from "./deliverable";
 import type { Task } from "./task";
 import type { Submission } from "./task";
@@ -14,14 +18,39 @@ export interface ClientProjectDetail {
   id: string;
   title: string;
   description: string;
+  descriptionFormat: ProjectDescriptionFormat;
+  learnerComplexityLevel: LearnerComplexityLevel;
   categoryId: string;
   status: ProjectStatus;
   budgetDzd?: number;
   deadline?: string;
   progressPercent: number;
+  requiredSkills: string[];
+  mentorMatchScore?: number;
   mentor?: MentorSummary;
   deliverables: Deliverable[];
   aiMentorSuggestions?: MentorSuggestion[];
+}
+
+export interface MentorProjectMatch {
+  mentor: MentorSummary;
+  matchScore: number;
+  skillsOverlap: number;
+  skillsMatchPercent: number;
+  mentorScore: number;
+}
+
+export interface AvailableProject {
+  id: string;
+  title: string;
+  description: string;
+  categoryId: string;
+  status: string;
+  budgetDzd?: number;
+  deadline?: string;
+  requiredSkills: string[];
+  matchScore?: number;
+  client: ClientSummary;
 }
 
 /** Vue MENTOR — accès complet aux sous-tâches */
@@ -29,6 +58,8 @@ export interface MentorProjectDetail {
   id: string;
   title: string;
   description: string;
+  descriptionFormat: ProjectDescriptionFormat;
+  learnerComplexityLevel: LearnerComplexityLevel;
   categoryId: string;
   status: ProjectStatus;
   client: ClientSummary;

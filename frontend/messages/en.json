@@ -3,6 +3,7 @@
     "appName": "5ibra",
     "login": "Sign in",
     "register": "Sign up",
+    "logout": "Sign out",
     "languageSwitcher": "Change language",
     "comingSoon": "Feature in development — UI ready, data to be connected.",
     "backHome": "Back to home"
@@ -137,7 +138,7 @@
     "projectDetail": { "title": "Project details", "description": "Overall progress and final deliverables." }
   },
   "mentorPages": {
-    "dashboard": { "title": "Mentor dashboard", "description": "Projects, applications and score." },
+    "dashboard": { "title": "Hello, {name}", "description": "Projects, applications and score." },
     "onboarding": { "title": "Set up your mentor profile", "description": "Services, bio and availability." },
     "profile": { "title": "My mentor profile", "description": "Your public showcase." },
     "projects": { "title": "Projects", "description": "Available and ongoing missions." },
@@ -154,6 +155,7 @@
     "profile": { "title": "Profile & portfolio", "description": "Your public showcase." },
     "discover": { "title": "Discover", "description": "AI recommendations, listings and gaps." },
     "activity": { "title": "My activity", "description": "Applications and missions." },
+    "missions": { "title": "My missions", "description": "All tasks assigned to you by mentors." },
     "mission": { "title": "Mission details", "description": "Your task and project context." },
     "progression": { "title": "My progress", "description": "Score out of 100 and path to freelance." },
     "packs": { "title": "Available packs", "description": "Coaching offered by mentors." },
