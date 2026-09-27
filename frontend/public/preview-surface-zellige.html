@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5ibra — Preview surface-50 + zellige</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      color: #1c2327;
+      padding: 24px;
+      background: #fff;
+    }
+    h1 { font-size: 1.25rem; margin-bottom: 8px; }
+    p.note { font-size: 0.875rem; color: #5a6570; margin-bottom: 24px; max-width: 52rem; line-height: 1.5; }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .swatch {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .swatch-color { height: 80px; }
+    .swatch-label { padding: 12px; font-size: 0.8125rem; }
+    .swatch-label code { display: block; margin-top: 4px; font-size: 0.75rem; color: #5a6570; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 768px) { .row { grid-template-columns: 1fr; } }
+
+    .panel {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 10px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #f0f0f0;
+      border-bottom: 1px solid #d1d5db;
+    }
+
+    /* ── PROPOSITION (à valider) ── */
+    :root {
+      --surface-50-old: #f7f8f9;
+      --surface-50-new: #e8e6e0;
+      --surface-100: #ffffff;
+      --primary-800: #123549;
+      --zellige-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23123549' stroke-width='0.9'%3E%3Cpath d='M28 2 L32 24 L54 28 L32 32 L28 54 L24 32 L2 28 L24 24 Z'/%3E%3Cpath d='M28 12 L40 28 L28 44 L16 28 Z'/%3E%3Cpath d='M0 0 L14 14 M56 0 L42 14 M0 56 L14 42 M56 56 L42 42' stroke-width='0.55'/%3E%3Cpath d='M28 0 L28 56 M0 28 L56 28' stroke-width='0.35' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-old {
+      min-height: 220px;
+      padding: 32px 24px;
+      background: var(--surface-100);
+      position: relative;
+    }
+    .hero-old::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M0 24 L24 0 L48 24 L24 48 Z' fill='none' stroke='%23123449' stroke-width='1'/%3E%3Ccircle cx='24' cy='24' r='3' fill='%23123449'/%3E%3C/svg%3E");
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .hero-new {
+      min-height: 220px;
+      padding: 32px 24px;
+      background: var(--surface-100);
+      position: relative;
+    }
+    .hero-new::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: var(--zellige-svg);
+      background-size: 56px 56px;
+      background-repeat: repeat;
+      pointer-events: none;
+    }
+
+    .page-old { min-height: 120px; padding: 24px; background: var(--surface-50-old); }
+    .page-new { min-height: 120px; padding: 24px; background: var(--surface-50-new); }
+
+    .hero-content { position: relative; z-index: 1; max-width: 28rem; }
+    .hero-content h2 { font-size: 1.125rem; font-weight: 600; line-height: 1.35; margin-bottom: 8px; }
+    .hero-content span { font-size: 0.875rem; color: #5a6570; }
+
+    .zoom {
+      margin-top: 8px;
+      padding: 16px;
+      background: #fff;
+    }
+    .zoom-box {
+      width: 168px;
+      height: 168px;
+      border: 1px solid #d1d5db;
+      position: relative;
+      background: var(--surface-100);
+    }
+    .zoom-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--zellige-svg);
+      background-size: 56px 56px;
+      background-repeat: repeat;
+      pointer-events: none;
+    }
+    .zoom-3 { opacity: 0.03; }
+    .zoom-100 { opacity: 1; }
+    .zoom-label { font-size: 0.75rem; color: #5a6570; margin-top: 8px; }
+
+    .flex-zoom { display: flex; gap: 24px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <h1>Preview — surface-50 + motif zellige (proposition)</h1>
+  <p class="note">
+    <strong>surface-50 proposé : #E8E6E0</strong> — pierre chaulée Casbah (sable clair grisâtre, pas crème #F4F1EA).<br>
+    Motif zellige en étoile à 8 branches + entrelacs, opacité 3 % sur fond blanc hero uniquement.
+  </p>
+
+  <h2 style="font-size:1rem;margin-bottom:12px;">Comparaison surface-50 (zone sous le hero)</h2>
+  <div class="swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#f7f8f9"></div>
+      <div class="swatch-label">Actuel (trop proche du blanc)<code>#F7F8F9</code></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#e8e6e0"></div>
+      <div class="swatch-label">Proposé (pierre Casbah)<code>#E8E6E0</code></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#f4f1ea"></div>
+      <div class="swatch-label">Banni (crème IA)<code>#F4F1EA — ne pas utiliser</code></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#ffffff;border-bottom:1px solid #eee"></div>
+      <div class="swatch-label">surface-100 (cards / hero)<code>#FFFFFF</code></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel">
+      <div class="panel-header">Hero ACTUEL (motif simplifié + fond blanc)</div>
+      <div class="hero-old">
+        <div class="hero-content">
+          <h2>Trouvez un mentor. Formez-vous sur de vrais projets.</h2>
+          <span>Motif actuel (losange + point)</span>
+        </div>
+      </div>
+      <div class="page-old" style="font-size:0.875rem;color:#5a6570">Zone catégories — bg surface-50 actuel</div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">Hero PROPOSÉ (zellige 8 branches + surface-50 nouveau)</div>
+      <div class="hero-new">
+        <div class="hero-content">
+          <h2>Trouvez un mentor. Formez-vous sur de vrais projets.</h2>
+          <span>Motif zellige entrelacs @ 3%</span>
+        </div>
+      </div>
+      <div class="page-new" style="font-size:0.875rem;color:#5a6570">Zone catégories — bg surface-50 proposé</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:1rem;margin-bottom:12px;">Motif zellige — zoom (même tuile, opacités différentes)</h2>
+  <div class="flex-zoom">
+    <div>
+      <div class="zoom-box"><div class="zoom-box zoom-3" style="position:absolute;inset:0"></div></div>
+      <div class="zoom-label">3 % — rendu hero (réel)</div>
+    </div>
+    <div>
+      <div class="zoom-box zoom-100" style="background-image:var(--zellige-svg);background-size:56px 56px"></div>
+      <div class="zoom-label">100 % — structure du motif (debug)</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5ibra — Preview hero complet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-600: #1a4d6e;
+      --primary-800: #123549;
+      --accent-600: #4f6b3c;
+      --accent-400: #6b8554;
+      --surface-50: #e2e5e8;
+      --surface-100: #ffffff;
+      --text-primary: #1c2327;
+      --text-muted: #5a6570;
+      --border: #d1d5db;
+      --zellige-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23123549' stroke-width='0.9'%3E%3Cpath d='M28 2 L32 24 L54 28 L32 32 L28 54 L24 32 L2 28 L24 24 Z'/%3E%3Cpath d='M28 12 L40 28 L28 44 L16 28 Z'/%3E%3Cpath d='M0 0 L14 14 M56 0 L42 14 M0 56 L14 42 M56 56 L42 42' stroke-width='0.55'/%3E%3Cpath d='M28 0 L28 56 M0 28 L56 28' stroke-width='0.35' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      color: var(--text-primary);
+      background: var(--surface-50);
+    }
+
+    /* ── Header (reproduction fidèle) ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 64px;
+      padding: 0 24px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(4px);
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-600);
+      text-decoration: none;
+    }
+    .nav { display: flex; gap: 24px; }
+    .nav a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .locale {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface-100);
+    }
+    .locale span {
+      display: inline-block;
+      min-width: 36px;
+      padding: 4px 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-align: center;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .locale span.active {
+      background: var(--primary-600);
+      color: #fff;
+    }
+    .btn-login {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--primary-600);
+      border: none;
+      border-radius: 8px;
+      cursor: default;
+    }
+
+    /* ── Hero zellige (classe future .hero-zellige) ── */
+    .hero-zellige {
+      position: relative;
+      background-color: var(--surface-100);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .hero-zellige::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: var(--zellige-pattern);
+      background-size: 56px 56px;
+      background-repeat: repeat;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 96px 24px;
+    }
+    .hero-inner h1 {
+      max-width: 36rem;
+      font-size: 2.25rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .hero-inner p {
+      max-width: 36rem;
+      margin-top: 16px;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .role-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .role-buttons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 8px;
+      cursor: default;
+    }
+    .btn-client { background: var(--primary-600); color: #fff; }
+    .btn-mentor { background: var(--accent-600); color: #fff; }
+    .btn-apprenant {
+      color: var(--primary-600);
+      border: 1px solid var(--primary-600);
+      background: transparent;
+    }
+
+    /* ── Zone catégories (aperçu contraste surface-50) ── */
+    .categories-preview {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+    .categories-preview h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .categories-preview p {
+      margin-top: 8px;
+      color: var(--text-muted);
+    }
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .card {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: var(--surface-100);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .card-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent-600);
+      background: var(--surface-50);
+      border-radius: 6px;
+    }
+    .card h3 { font-size: 1rem; font-weight: 500; line-height: 1.35; }
+
+    /* ── Légende preview ── */
+    .preview-banner {
+      padding: 12px 24px;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-banner strong { color: var(--text-primary); }
+    .preview-banner code {
+      font-size: 0.75rem;
+      padding: 1px 5px;
+      background: var(--surface-50);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">
+    <strong>Preview hero complet</strong> — surface-50 proposé
+    <code>#E2E5E8</code> (gris-bleu pierre, axe désaturé loin du crème
+    <code>#F4F1EA</code>) · zellige 8 branches + entrelacs @ 3 % ·
+    <em>pas encore appliqué sur la page réelle</em>
+  </div>
+
+  <header class="header">
+    <a class="logo" href="#">5ibra</a>
+    <nav class="nav" aria-hidden="true">
+      <a href="#">Mentors</a>
+      <a href="#">Comment ça marche</a>
+    </nav>
+    <div class="header-actions">
+      <div class="locale">
+        <span class="active">FR</span>
+        <span>EN</span>
+        <span>ع</span>
+      </div>
+      <button class="btn-login" type="button">Se connecter</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-zellige">
+      <div class="hero-inner">
+        <h1>Trouvez un mentor. Formez-vous sur de vrais projets. Livrez en confiance.</h1>
+        <p>5ibra relie clients, mentors et apprenants autour de missions réelles — avec un accompagnement structuré et une IA qui facilite le matching.</p>
+        <div class="role-buttons">
+          <a class="btn-client" href="#">Je suis client</a>
+          <a class="btn-mentor" href="#">Je suis mentor</a>
+          <a class="btn-apprenant" href="#">J'apprends</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories-preview">
+      <h2>Domaines disponibles</h2>
+      <p>Des catégories claires pour trouver le bon profil, sans description libre difficile à comparer.</p>
+      <div class="card-row">
+        <article class="card">
+          <span class="card-icon">&lt;/&gt;</span>
+          <h3>Développement web et mobile</h3>
+        </article>
+        <article class="card">
+          <span class="card-icon">◆</span>
+          <h3>Design graphique et identité visuelle</h3>
+        </article>
+        <article class="card">
+          <span class="card-icon">◎</span>
+          <h3>Community management et réseaux sociaux</h3>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

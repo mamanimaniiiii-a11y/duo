@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ── Design tokens 5ibra — palette « Baie, Casbah, Atlas » ── */
+@theme inline {
+  /* Primaire — bleu baie d'Alger */
+  --color-primary-600: #1a4d6e;
+  --color-primary-800: #123549;
+
+  /* Accent — vert olive des Hauts Plateaux */
+  --color-accent-600: #4f6b3c;
+  --color-accent-400: #6b8554;
+
+  /* Highlight — safran (score, progression uniquement) */
+  --color-highlight-500: #b8952e;
+
+  /* Surfaces */
+  --color-surface-50: #e2e5e8;
+  --color-surface-100: #ffffff;
+
+  /* Zellige — 15 % blanc + 85 % couleur d'origine */
+  --color-zellige-blue: #3c6884;
+  --color-zellige-olive: #698159;
+  --color-zellige-saffron: #c3a54d;
+
+  /* Texte */
+  --color-text-primary: #1c2327;
+  --color-text-muted: #5a6570;
+
+  /* Bordures */
+  --color-border: #d1d5db;
+
+  /* Typographie */
+  --font-sans: var(--font-source-sans);
+  --font-arabic: var(--font-ibm-plex-arabic);
+}
+
+:root {
+  --background: #e2e5e8;
+  --foreground: #1c2327;
+
+  --zellige-multicolor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none'%3E%3Cpath stroke='%233C6884' stroke-width='1.1' d='M28 2 L32 24 L54 28 L32 32 L28 54 L24 32 L2 28 L24 24 Z'/%3E%3Cpath stroke='%23698159' stroke-width='0.95' d='M28 12 L40 28 L28 44 L16 28 Z'/%3E%3Cpath stroke='%23C3A54D' stroke-width='0.65' d='M0 0 L14 14 M56 0 L42 14 M0 56 L14 42 M56 56 L42 42'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+[dir="rtl"] body {
+  font-family: var(--font-arabic), var(--font-sans), system-ui, sans-serif;
+}
+
+/* Une seule animation d'entrée — hero uniquement */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-enter {
+  animation: hero-fade-in 0.55s ease-out both;
+}
+
+/* Motif zellige multicolore — hero uniquement */
+.hero-zellige {
+  position: relative;
+  background-color: var(--color-surface-100);
+}
+
+.hero-zellige::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.24;
+  background-image: var(--zellige-multicolor);
+  background-size: 56px 56px;
+  background-repeat: repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter {
+    animation: none;
+  }
+}

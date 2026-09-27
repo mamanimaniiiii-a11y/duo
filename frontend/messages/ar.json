@@ -1,0 +1,187 @@
+{
+  "common": {
+    "appName": "5ibra",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "languageSwitcher": "تغيير اللغة",
+    "comingSoon": "الميزة قيد التطوير — الواجهة جاهزة، البيانات قيد الربط.",
+    "backHome": "العودة إلى الصفحة الرئيسية"
+  },
+  "roles": {
+    "client": "عميل",
+    "mentor": "مرشد",
+    "apprenant": "متعلّم",
+    "admin": "مسؤول"
+  },
+  "nav": {
+    "main": "التنقل الرئيسي",
+    "sidebar": "التنقل الجانبي",
+    "mentors": "المرشدون",
+    "howItWorks": "كيف يعمل",
+    "dashboard": "لوحة التحكم",
+    "projects": "المشاريع",
+    "account": "حسابي",
+    "messages": "الرسائل",
+    "notifications": "الإشعارات",
+    "recruitment": "التوظيف",
+    "apprenants": "متعلّموني",
+    "packs": "الباقات",
+    "boost": "التعزيز والبريميوم",
+    "progression": "التقدم",
+    "discover": "اكتشف",
+    "activity": "نشاطي",
+    "profile": "الملف والمحفظة",
+    "users": "المستخدمون",
+    "moderation": "الإشراف",
+    "disputes": "النزاعات",
+    "configuration": "الإعدادات",
+    "boostPremium": "التعزيز والبريميوم"
+  },
+  "home": {
+    "metaTitle": "5ibra — عمل حر، إرشاد وتعلم عبر مشاريع حقيقية",
+    "metaDescription": "انشروا مشاريعكم، أرشدوا متعلمين، أو طوّروا مهاراتكم في مهام حقيقية. منصة مخصصة للجزائر.",
+    "hero": {
+      "title": "اعثروا على مرشد. تعلموا عبر مشاريع حقيقية. سلّموا بثقة.",
+      "subtitle": "5ibra تربط العملاء والمرشدين والمتعلمين حول مهام حقيقية — مع مرافقة منظمة وذكاء اصطناعي يسهّل المطابقة."
+    },
+    "roles": {
+      "client": "أنا عميل",
+      "mentor": "أنا مرشد",
+      "apprenant": "أنا متعلّم"
+    },
+    "categories": {
+      "title": "المجالات المتاحة",
+      "subtitle": "فئات واضحة للعثور على الملف المناسب."
+    }
+  },
+  "auth": {
+    "metaTitle": "تسجيل الدخول — 5ibra",
+    "loginMetaTitle": "تسجيل الدخول — 5ibra",
+    "registerMetaTitle": "إنشاء حساب — 5ibra",
+    "panelTitle": "مرحباً بكم في 5ibra",
+    "panelSubtitle": "المنصة التي تربط العملاء والمرشدين والمتعلمين حول مشاريع حقيقية في الجزائر.",
+    "loginHeading": "تسجيل الدخول",
+    "loginSubtitle": "ادخل إلى لوحة التحكم وتابع مشاريعك.",
+    "registerHeading": "إنشاء حساب",
+    "registerSubtitle": "انضم إلى 5ibra كعميل أو مرشد أو متعلم.",
+    "loginTitle": "تسجيل الدخول",
+    "registerTitle": "إنشاء حساب",
+    "displayName": "الاسم المعروض",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "role": "أسجّل كـ",
+    "skills": "المهارات",
+    "skillsPlaceholder": "Python، React، تصميم",
+    "careerGoal": "هدف مهني",
+    "mentorOnboardingHint": "سيتم إعداد مجالات خبرتك مباشرة بعد التسجيل.",
+    "noAccount": "ليس لديك حساب؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "forgotPassword": "نسيت كلمة المرور؟"
+  },
+  "legal": {
+    "metaTitle": "الشروط القانونية — 5ibra",
+    "title": "الشروط والخصوصية",
+    "termsTitle": "شروط الاستخدام",
+    "termsBody": "ستُنشر شروط استخدام 5ibra هنا قبل الإطلاق العام.",
+    "privacyTitle": "سياسة الخصوصية",
+    "privacyBody": "ستوضح سياسة الخصوصية كيفية جمع بياناتكم وتخزينها وحمايتها."
+  },
+  "mentors": {
+    "metaTitle": "دليل المرشدين — 5ibra",
+    "title": "دليل المرشدين",
+    "subtitle": "اكتشفوا مرشدين موثوقين حسب المجال والنتيجة والتقييمات.",
+    "score": "النتيجة {score}/100",
+    "viewProfile": "عرض الملف"
+  },
+  "mentorProfile": {
+    "metaTitle": "ملف المرشد — 5ibra",
+    "certified": "مرشد معتمد",
+    "services": "الخدمات المقترحة",
+    "openAnnouncements": "إعلانات مفتوحة"
+  },
+  "portfolio": {
+    "metaTitle": "محفظة المتعلّم — 5ibra",
+    "score": "النتيجة {score}/100",
+    "validatedSkills": "مهارات مُثبتة"
+  },
+  "annonce": {
+    "metaTitle": "إعلان — 5ibra",
+    "apply": "تقديم طلب",
+    "requiredSkills": "المهارات المطلوبة"
+  },
+  "account": {
+    "metaTitle": "حسابي — 5ibra",
+    "title": "حسابي",
+    "subtitle": "الملف، الإعدادات والتقييمات المستلمة.",
+    "profileTab": "الملف",
+    "settingsTab": "الإعدادات",
+    "reviewsTab": "تقييماتي"
+  },
+  "messages": {
+    "metaTitle": "الرسائل — 5ibra",
+    "title": "الرسائل",
+    "subtitle": "محادثاتكم حسب المشروع والجهة.",
+    "empty": "لا توجد محادثات بعد."
+  },
+  "notifications": {
+    "metaTitle": "الإشعارات — 5ibra",
+    "title": "الإشعارات",
+    "subtitle": "الطلبات، التسليمات، الرسائل والتنبيهات.",
+    "empty": "لا توجد إشعارات."
+  },
+  "client": {
+    "dashboard": { "title": "لوحة تحكم العميل", "description": "نظرة عامة على مشاريعكم النشطة." },
+    "onboarding": { "title": "مرحباً", "description": "أكملوا ملفكم وانشروا مشروعكم الأول." },
+    "projects": { "title": "مشاريعي", "description": "الكل، قيد التنفيذ، المنتهية والمسودات." },
+    "newProject": { "title": "نشر مشروع", "description": "صفوا احتياجكم بالدينار الجزائري (DZD)." },
+    "projectDetail": { "title": "تفاصيل المشروع", "description": "التقدم العام والتسليمات النهائية." }
+  },
+  "mentorPages": {
+    "dashboard": { "title": "لوحة تحكم المرشد", "description": "المشاريع، الطلبات والنتيجة." },
+    "onboarding": { "title": "إعداد ملف المرشد", "description": "الخدمات، السيرة والتوفر." },
+    "profile": { "title": "ملفي كمرشد", "description": "واجهتكم العامة." },
+    "projects": { "title": "المشاريع", "description": "المتاحة والمهام الجارية." },
+    "projectDetail": { "title": "إدارة المشروع", "description": "المهام، المتعلمون والتسليمات." },
+    "recruitment": { "title": "توظيف المتعلمين", "description": "الإعلانات والطلبات." },
+    "apprenants": { "title": "متعلّموني", "description": "المتابعة والتقييم." },
+    "progression": { "title": "النتيجة والسمعة", "description": "تقدمكم على 100." },
+    "packs": { "title": "باقاتي", "description": "عروض المرافقة للمتعلمين." },
+    "boost": { "title": "التعزيز والبريميوم", "description": "زيادة الظهور." }
+  },
+  "apprenantPages": {
+    "dashboard": { "title": "لوحة تحكم المتعلّم", "description": "المهام، النتيجة والتوصيات." },
+    "onboarding": { "title": "مرحباً", "description": "المهارات وهدف المسار المهني." },
+    "profile": { "title": "الملف والمحفظة", "description": "واجهتكم العامة." },
+    "discover": { "title": "اكتشف", "description": "توصيات الذكاء الاصطناعي، الإعلانات والفجوات." },
+    "activity": { "title": "نشاطي", "description": "الطلبات والمهام." },
+    "mission": { "title": "تفاصيل المهمة", "description": "مهمتكم وسياق المشروع." },
+    "progression": { "title": "تقدمي", "description": "النتيجة على 100 والمسار نحو العمل الحر." },
+    "packs": { "title": "الباقات المتاحة", "description": "مرافقة يقترحها المرشدون." },
+    "packDetail": { "title": "تفاصيل الباقة", "description": "المحتوى، السعر بالدينار والشراء." }
+  },
+  "adminPages": {
+    "dashboard": { "title": "الإدارة", "description": "نظرة عامة على المنصة." },
+    "users": { "title": "المستخدمون", "description": "إدارة الحسابات والأدوار." },
+    "moderation": { "title": "الإشراف", "description": "المشاريع، الإعلانات والتقييمات." },
+    "disputes": { "title": "النزاعات", "description": "الخلافات والبلاغات." },
+    "configuration": { "title": "الإعدادات", "description": "الفئات وعتبات النتيجة." },
+    "boostPremium": { "title": "التعزيز والبريميوم", "description": "العروض والتأكيدات." }
+  },
+  "footer": {
+    "copyright": "© {year} 5ibra. جميع الحقوق محفوظة.",
+    "legalNav": "روابط قانونية",
+    "legal": "الشروط القانونية",
+    "privacy": "الخصوصية"
+  },
+  "categories": {
+    "web": "تطوير الويب والتطبيقات",
+    "design": "التصميم الجرافيكي والهوية البصرية",
+    "community": "إدارة المجتمع وشبكات التواصل",
+    "writing": "الكتابة والترجمة",
+    "marketing": "التسويق الرقمي والإعلانات",
+    "video": "مونتاج الفيديو وإنتاج المحتوى",
+    "accounting": "المحاسبة واستشارات المؤسسات الصغيرة",
+    "photography": "التصوير الفوتوغرافي",
+    "ecommerce": "التجارة الإلكترونية وإدارة المتاجر"
+  }
+}

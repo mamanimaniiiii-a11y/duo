@@ -1,0 +1,187 @@
+{
+  "common": {
+    "appName": "5ibra",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "languageSwitcher": "Changer de langue",
+    "comingSoon": "Fonctionnalité en cours de développement — interface prête, données à connecter.",
+    "backHome": "Retour à l'accueil"
+  },
+  "roles": {
+    "client": "Client",
+    "mentor": "Mentor",
+    "apprenant": "Apprenant",
+    "admin": "Admin"
+  },
+  "nav": {
+    "main": "Navigation principale",
+    "sidebar": "Navigation latérale",
+    "mentors": "Mentors",
+    "howItWorks": "Comment ça marche",
+    "dashboard": "Tableau de bord",
+    "projects": "Projets",
+    "account": "Mon compte",
+    "messages": "Messagerie",
+    "notifications": "Notifications",
+    "recruitment": "Recrutement",
+    "apprenants": "Mes apprenants",
+    "packs": "Packs",
+    "boost": "Boost et Premium",
+    "progression": "Progression",
+    "discover": "Découvrir",
+    "activity": "Mon activité",
+    "profile": "Profil et portfolio",
+    "users": "Utilisateurs",
+    "moderation": "Modération",
+    "disputes": "Litiges",
+    "configuration": "Configuration",
+    "boostPremium": "Boost et Premium"
+  },
+  "home": {
+    "metaTitle": "5ibra — Freelancing, mentorat et apprentissage par projets réels",
+    "metaDescription": "Publiez des projets, encadrez des apprenants ou montez en compétence sur de vraies missions. Pensé pour l'Algérie.",
+    "hero": {
+      "title": "Trouvez un mentor. Formez-vous sur de vrais projets. Livrez en confiance.",
+      "subtitle": "5ibra relie clients, mentors et apprenants autour de missions réelles — avec un accompagnement structuré et une IA qui facilite le matching."
+    },
+    "roles": {
+      "client": "Je suis client",
+      "mentor": "Je suis mentor",
+      "apprenant": "Je suis apprenant"
+    },
+    "categories": {
+      "title": "Domaines disponibles",
+      "subtitle": "Des catégories claires pour trouver le bon profil, sans description libre difficile à comparer."
+    }
+  },
+  "auth": {
+    "metaTitle": "Connexion — 5ibra",
+    "loginMetaTitle": "Connexion — 5ibra",
+    "registerMetaTitle": "Inscription — 5ibra",
+    "panelTitle": "Bienvenue sur 5ibra",
+    "panelSubtitle": "La plateforme qui relie clients, mentors et apprenants autour de projets réels en Algérie.",
+    "loginHeading": "Connectez-vous",
+    "loginSubtitle": "Accédez à votre tableau de bord et reprenez vos projets.",
+    "registerHeading": "Créez votre compte",
+    "registerSubtitle": "Rejoignez 5ibra en tant que client, mentor ou apprenant.",
+    "loginTitle": "Connexion",
+    "registerTitle": "Inscription",
+    "displayName": "Nom affiché",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "role": "Je m'inscris en tant que",
+    "skills": "Compétences",
+    "skillsPlaceholder": "Python, React, design",
+    "careerGoal": "Objectif de carrière",
+    "mentorOnboardingHint": "Vos domaines d'expertise seront configurés juste après l'inscription.",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "legal": {
+    "metaTitle": "Mentions légales — 5ibra",
+    "title": "Mentions légales et confidentialité",
+    "termsTitle": "Conditions d'utilisation",
+    "termsBody": "Les conditions d'utilisation de 5ibra seront publiées ici avant le lancement public.",
+    "privacyTitle": "Politique de confidentialité",
+    "privacyBody": "La politique de confidentialité détaillera comment vos données sont collectées, stockées et protégées."
+  },
+  "mentors": {
+    "metaTitle": "Annuaire des mentors — 5ibra",
+    "title": "Annuaire des mentors",
+    "subtitle": "Découvrez des mentors vérifiés par domaine, score et avis.",
+    "score": "Score {score}/100",
+    "viewProfile": "Voir le profil"
+  },
+  "mentorProfile": {
+    "metaTitle": "Profil mentor — 5ibra",
+    "certified": "Mentor certifié",
+    "services": "Services proposés",
+    "openAnnouncements": "Annonces ouvertes"
+  },
+  "portfolio": {
+    "metaTitle": "Portfolio apprenant — 5ibra",
+    "score": "Score {score}/100",
+    "validatedSkills": "Compétences validées"
+  },
+  "annonce": {
+    "metaTitle": "Annonce — 5ibra",
+    "apply": "Postuler",
+    "requiredSkills": "Compétences recherchées"
+  },
+  "account": {
+    "metaTitle": "Mon compte — 5ibra",
+    "title": "Mon compte",
+    "subtitle": "Profil, paramètres et avis reçus.",
+    "profileTab": "Profil",
+    "settingsTab": "Paramètres",
+    "reviewsTab": "Mes avis"
+  },
+  "messages": {
+    "metaTitle": "Messagerie — 5ibra",
+    "title": "Messagerie",
+    "subtitle": "Vos conversations par projet et par contact.",
+    "empty": "Aucune conversation pour le moment."
+  },
+  "notifications": {
+    "metaTitle": "Notifications — 5ibra",
+    "title": "Notifications",
+    "subtitle": "Candidatures, livrables, messages et alertes.",
+    "empty": "Aucune notification."
+  },
+  "client": {
+    "dashboard": { "title": "Tableau de bord client", "description": "Vue d'ensemble de vos projets en cours." },
+    "onboarding": { "title": "Bienvenue", "description": "Complétez votre profil et publiez votre premier projet." },
+    "projects": { "title": "Mes projets", "description": "Tous, en cours, terminés et brouillons." },
+    "newProject": { "title": "Publier un projet", "description": "Décrivez votre besoin en dinars algériens (DZD)." },
+    "projectDetail": { "title": "Détail du projet", "description": "Avancement global et livrables finaux." }
+  },
+  "mentorPages": {
+    "dashboard": { "title": "Tableau de bord mentor", "description": "Projets, candidatures et score." },
+    "onboarding": { "title": "Configurer votre profil mentor", "description": "Services, bio et disponibilité." },
+    "profile": { "title": "Mon profil mentor", "description": "Votre vitrine publique." },
+    "projects": { "title": "Projets", "description": "Disponibles et missions en cours." },
+    "projectDetail": { "title": "Pilotage du projet", "description": "Tâches, apprenants et livrables." },
+    "recruitment": { "title": "Recrutement apprenants", "description": "Annonces et candidatures." },
+    "apprenants": { "title": "Mes apprenants", "description": "Suivi et évaluation." },
+    "progression": { "title": "Score et réputation", "description": "Votre progression sur 100." },
+    "packs": { "title": "Mes packs", "description": "Offres d'accompagnement pour apprenants." },
+    "boost": { "title": "Boost et Premium", "description": "Augmentez votre visibilité." }
+  },
+  "apprenantPages": {
+    "dashboard": { "title": "Tableau de bord apprenant", "description": "Missions, score et recommandations." },
+    "onboarding": { "title": "Bienvenue", "description": "Compétences et objectif de carrière." },
+    "profile": { "title": "Profil et portfolio", "description": "Votre vitrine publique." },
+    "discover": { "title": "Découvrir", "description": "Recommandations IA, annonces et lacunes." },
+    "activity": { "title": "Mon activité", "description": "Candidatures et missions." },
+    "mission": { "title": "Détail de la mission", "description": "Votre tâche et le contexte du projet." },
+    "progression": { "title": "Ma progression", "description": "Score sur 100 et chemin vers le freelance." },
+    "packs": { "title": "Packs disponibles", "description": "Accompagnement proposé par les mentors." },
+    "packDetail": { "title": "Détail du pack", "description": "Contenu, prix en DZD et achat." }
+  },
+  "adminPages": {
+    "dashboard": { "title": "Administration", "description": "Vue globale de la plateforme." },
+    "users": { "title": "Utilisateurs", "description": "Gestion des comptes et rôles." },
+    "moderation": { "title": "Modération", "description": "Projets, annonces et avis." },
+    "disputes": { "title": "Litiges", "description": "Conflits et signalements." },
+    "configuration": { "title": "Configuration", "description": "Catégories et seuils de score." },
+    "boostPremium": { "title": "Boost et Premium", "description": "Offres et confirmations." }
+  },
+  "footer": {
+    "copyright": "© {year} 5ibra. Tous droits réservés.",
+    "legalNav": "Liens légaux",
+    "legal": "Mentions légales",
+    "privacy": "Confidentialité"
+  },
+  "categories": {
+    "web": "Développement web et mobile",
+    "design": "Design graphique et identité visuelle",
+    "community": "Community management et réseaux sociaux",
+    "writing": "Rédaction et traduction",
+    "marketing": "Marketing digital et publicité en ligne",
+    "video": "Montage vidéo et production de contenu",
+    "accounting": "Comptabilité et conseil pour petites entreprises",
+    "photography": "Photographie",
+    "ecommerce": "E-commerce et gestion de boutique en ligne"
+  }
+}
